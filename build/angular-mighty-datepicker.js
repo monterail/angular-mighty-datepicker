@@ -3,12 +3,13 @@
 
   angular.module("mightyDatepicker").directive("mightyDatepicker", function($compile) {
     var options, pickerTemplate;
-    pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\" bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker__calendar\">\n      <tr>\n        <th bindonce ng-repeat=\"day in month.weeks[1]\" class=\"mighty-picker__calendar-weekday\" bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker__calendar-day\": day,\n              \"mighty-picker__calendar-day-selected\": day.selected,\n              \"mighty-picker__calendar-day-disabled\": day.disabled,\n              \"mighty-picker__calendar-day-start\": day.start\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker__calendar-day-wrapper\" bo-text=\"day.date.date()\"></div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button ng-click=\"moveMonth(1)\">>></button>\n</div>";
+    pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker__calendar\">\n      <tr>\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker__calendar-weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker__calendar-day\": day,\n              \"mighty-picker__calendar-day-selected\": day.selected,\n              \"mighty-picker__calendar-day-disabled\": day.disabled,\n              \"mighty-picker__calendar-day-start\": day.start\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker__calendar-day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button ng-click=\"moveMonth(1)\">>></button>\n</div>";
     options = {
       mode: "simple",
       after: null,
       before: null,
-      months: 1
+      months: 1,
+      start: null
     };
     return {
       restrict: "AE",
@@ -19,23 +20,54 @@
         options: '='
       },
       link: function($scope, $element, $attrs) {
-        var _bake, _build, _buildMonth, _buildWeek, _prepare, _setup;
+        var _bake, _build, _buildMonth, _buildWeek, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
         _bake = function() {
           var domEl;
           domEl = $compile(angular.element(pickerTemplate))($scope);
           return $element.append(domEl);
+        };
+        _indexOfMoment = function(array, element, match) {
+          var key, value;
+          for (key in array) {
+            value = array[key];
+            if (element.isSame(value, match)) {
+              return key;
+            }
+          }
+          return -1;
+        };
+        _withinLimits = function(day, month) {
+          var withinLimits;
+          withinLimits = true;
+          if (options.before) {
+            withinLimits && (withinLimits = day.isBefore(options.before));
+          }
+          if (options.after) {
+            withinLimits && (withinLimits = day.isAfter(options.after));
+          }
+          return withinLimits;
+        };
+        _isSelected = function(day) {
+          switch ($scope.options.mode) {
+            case "multiple":
+              return _indexOfMoment($scope.model, day, 'day') > -1;
+            default:
+              return $scope.model && day.isSame($scope.model, 'day');
+          }
         };
         _buildWeek = function(time, month) {
           var days, start;
           days = [];
           start = time.startOf('week');
           days = [0, 1, 2, 3, 4, 5, 6].map(function(d) {
-            var day;
+            var day, withinLimits, withinMonth;
             day = moment(start).add('days', d);
+            withinMonth = day.month() === month;
+            withinLimits = _withinLimits(day, month);
             return {
               date: day,
-              selected: $scope.model && day.isSame($scope.model, 'day') && day.month() === month,
-              disabled: day.month() !== month
+              selected: _isSelected(day) && withinMonth,
+              disabled: !(withinLimits && withinMonth)
             };
           });
           return days;
@@ -64,24 +96,39 @@
           };
         };
         _setup = function() {
-          var attr, start, v, _ref;
+          var attr, dates, start, tempOptions, v, _ref;
+          tempOptions = {};
+          for (attr in options) {
+            v = options[attr];
+            tempOptions[attr] = v;
+          }
           if ($scope.options) {
             _ref = $scope.options;
             for (attr in _ref) {
               v = _ref[attr];
-              options[attr] = $scope.options[attr];
+              tempOptions[attr] = $scope.options[attr];
             }
           }
-          $scope.options = options;
+          $scope.options = tempOptions;
           switch ($scope.options.mode) {
             case "multiple":
+              if ($scope.model && Array.isArray($scope.model) && $scope.model.length > 0) {
+                if ($scope.model.length === 1) {
+                  start = moment($scope.model[0]);
+                } else {
+                  dates = $scope.model.slice(0);
+                  start = moment(dates.sort().slice(-1));
+                }
+              } else {
+                $scope.model = [];
+              }
               break;
             default:
               if ($scope.model) {
                 start = moment($scope.model);
               }
-              return $scope.options.start = $scope.options.start || start || moment().startOf('day');
           }
+          return $scope.options.start = $scope.options.start || start || moment().startOf('day');
         };
         _prepare = function() {
           var m;
@@ -104,8 +151,22 @@
           _prepare();
         };
         $scope.select = function(day) {
-          $scope.model = day.date;
-          return _prepare();
+          var ix;
+          if (!day.disabled) {
+            switch ($scope.options.mode) {
+              case "multiple":
+                if (day.selected) {
+                  ix = _indexOfMoment($scope.model, day.date, 'day');
+                  $scope.model.splice(ix, 1);
+                } else {
+                  $scope.model.push(moment(day.date));
+                }
+                break;
+              default:
+                $scope.model = day.date;
+            }
+            return _prepare();
+          }
         };
         _setup();
         return _build();

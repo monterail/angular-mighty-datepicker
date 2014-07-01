@@ -16,8 +16,9 @@
         $scope.range2 = moment().range("2012-11-15", "2012-12-25")
       }
       $scope.date = null;
-      $scope.multi = null;
-      $scope.options = {start: moment().add('month', 4), months: 3}
+      $scope.multi = [];
+      $scope.options = {start: moment().add('month', -1), months: 1, after: moment()}
+      $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", after: moment()}
     });
   </script>
   <link rel="stylesheet" type="text/css" href="../build/angular-mighty-datepicker.css"/>
@@ -37,11 +38,14 @@
         {{date | json}}
       </pre>
     </div>
-    <!-- <div>
-      <h1>Multiple date picker</h1>
-      <mighty-datepicker ng-model="multi"></mighty-datepicker>
-    </div>
     <div>
+      <h1>Multiple date picker</h1>
+      <mighty-datepicker ng-model="multi" options="optionsM"></mighty-datepicker>
+    </div>
+      <pre>
+        {{ mutli | json}}
+      </pre>
+    <!-- <div>
       <h1>Date range picker</h1>
       <mighty-datepicker ng-model="range"></mighty-datepicker>
     </div> -->
