@@ -1,11 +1,11 @@
-.mighty-picker__calendar-day {
+.mighty-picker-calendar-day {
   cursor: pointer;
 }
-.mighty-picker__calendar-day-disabled {
+.mighty-picker-calendar-day-disabled {
   color: #aaa;
   cursor: auto;
 }
-.mighty-picker__calendar-day-selected {
+.mighty-picker-calendar-day-selected {
   color: #3b5;
   font-weight: bold;
 }

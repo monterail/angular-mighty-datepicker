@@ -3,33 +3,33 @@ angular.module "mightyDatepicker", ['pasvaz.bindonce']
 angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
-      <button ng-click="moveMonth(-1)"><<</button>
+      <button type="button" class="mighty-picker__prev-month" ng-click="moveMonth(-1)"><<</button>
       <div class="mighty-picker__month"
         bindonce ng-repeat="month in months track by $index">
         <div class="mighty-picker__month-name" ng-bind="month.name"></div>
-        <table class="mighty-picker__calendar">
-          <tr>
+        <table class="mighty-picker-calendar">
+          <tr class="mighty-picker-callendar__days">
             <th bindonce ng-repeat="day in month.weeks[1]"
-              class="mighty-picker__calendar-weekday"
+              class="mighty-picker-calendar__weekday"
               bo-text="day.date.format('dd')">
             </th>
           </tr>
           <tr bindonce ng-repeat="week in month.weeks">
             <td
                 bo-class='{
-                  "mighty-picker__calendar-day": day,
-                  "mighty-picker__calendar-day-selected": day.selected,
-                  "mighty-picker__calendar-day-disabled": day.disabled,
-                  "mighty-picker__calendar-day-start": day.start
+                  "mighty-picker-calendar__day": day,
+                  "mighty-picker-calendar__day-selected": day.selected,
+                  "mighty-picker-calendar__day-disabled": day.disabled,
+                  "mighty-picker-calendar__day-start": day.start
                 }'
                 ng-repeat="day in week track by $index" ng-click="select(day)">
-                <div class="mighty-picker__calendar-day-wrapper"
+                <div class="mighty-picker-calendar__day-wrapper"
                   bo-text="day.date.date()"></div>
             </td>
           </tr>
         </table>
       </div>
-      <button ng-click="moveMonth(1)">>></button>
+      <button type="button" class="mighty-picker__next-month" ng-click="moveMonth(1)">>></button>
     </div>
   """
   options =
