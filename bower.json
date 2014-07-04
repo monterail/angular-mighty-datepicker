@@ -1,9 +1,10 @@
 {
   "name": "angular-mighty-datepicker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "authors": [
     "Krzysztof Jung <krzysztof.jung@monterail.com>",
-    "Patryk Peas <patryk.peas@monterail.com>"
+    "Patryk Peas <patryk.peas@monterail.com>",
+    "Kamil Nicieja <kamil.nicieja@monterail.com>"
   ],
   "repository": "git://github.com/monterail/angular-mighty-datepicker.git",
   "description": "Angular based datepicker with mighty options",

@@ -39,11 +39,11 @@
         _withinLimits = function(day, month) {
           var withinLimits;
           withinLimits = true;
-          if (options.before) {
-            withinLimits && (withinLimits = day.isBefore(options.before));
+          if ($scope.options.before) {
+            withinLimits && (withinLimits = day.isBefore($scope.options.before));
           }
-          if (options.after) {
-            withinLimits && (withinLimits = day.isAfter(options.after));
+          if ($scope.options.after) {
+            withinLimits && (withinLimits = day.isAfter($scope.options.after));
           }
           return withinLimits;
         };

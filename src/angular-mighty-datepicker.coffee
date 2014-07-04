@@ -57,8 +57,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
     _withinLimits = (day, month) ->
       withinLimits = true
-      withinLimits &&= day.isBefore(options.before) if options.before
-      withinLimits &&= day.isAfter(options.after) if options.after
+      withinLimits &&= day.isBefore($scope.options.before) if $scope.options.before
+      withinLimits &&= day.isAfter($scope.options.after) if $scope.options.after
       withinLimits
 
     _isSelected = (day) ->
