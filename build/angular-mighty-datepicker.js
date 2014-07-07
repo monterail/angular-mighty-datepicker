@@ -9,7 +9,9 @@
       after: null,
       before: null,
       months: 1,
-      start: null
+      start: null,
+      filter: void 0,
+      callback: void 0
     };
     return {
       restrict: "AE",
@@ -56,18 +58,22 @@
           }
         };
         _buildWeek = function(time, month) {
-          var days, start;
+          var days, filter, start;
           days = [];
+          filter = true;
           start = time.startOf('week');
           days = [0, 1, 2, 3, 4, 5, 6].map(function(d) {
             var day, withinLimits, withinMonth;
             day = moment(start).add('days', d);
             withinMonth = day.month() === month;
             withinLimits = _withinLimits(day, month);
+            if ($scope.options.filter) {
+              filter = $scope.options.filter(day);
+            }
             return {
               date: day,
               selected: _isSelected(day) && withinMonth,
-              disabled: !(withinLimits && withinMonth)
+              disabled: !(withinLimits && withinMonth && filter)
             };
           });
           return days;
@@ -117,7 +123,7 @@
                   start = moment($scope.model[0]);
                 } else {
                   dates = $scope.model.slice(0);
-                  start = moment(dates.sort().slice(-1));
+                  start = moment(dates.sort().slice(-1)[0]);
                 }
               } else {
                 $scope.model = [];
@@ -164,6 +170,9 @@
                 break;
               default:
                 $scope.model = day.date;
+            }
+            if ($scope.options.callback) {
+              $scope.options.callback(day.date);
             }
             return _prepare();
           }

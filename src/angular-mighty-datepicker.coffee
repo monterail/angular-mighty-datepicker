@@ -38,6 +38,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
     before: null
     months: 1
     start: null
+    filter: undefined
+    callback: undefined
   restrict: "AE"
   replace: true
   template: '<div class="mighty-picker__holder"></div>'
@@ -70,14 +72,16 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
     _buildWeek = (time, month) ->
       days = []
+      filter = true
       start = time.startOf('week')
       days = [0 .. 6].map (d) ->
         day = moment(start).add('days', d)
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
+        filter = $scope.options.filter(day) if $scope.options.filter
         date: day
         selected: _isSelected(day) && withinMonth
-        disabled: !(withinLimits && withinMonth)
+        disabled: !(withinLimits && withinMonth && filter)
       days
 
     _buildMonth = (time) ->
@@ -109,12 +113,12 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
       switch $scope.options.mode
         when "multiple"
           # add start based on model
-          if $scope.model && Array.isArray($scope.model) &&$scope.model.length>0
+          if $scope.model && Array.isArray($scope.model) && $scope.model.length>0
             if $scope.model.length == 1
               start = moment($scope.model[0])
             else
               dates = $scope.model.slice(0)
-              start = moment(dates.sort().slice(-1))
+              start = moment(dates.sort().slice(-1)[0])
           else
             $scope.model = []
         else
@@ -149,6 +153,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
               $scope.model.push(moment(day.date))
           else
             $scope.model = day.date
+        $scope.options.callback day.date if $scope.options.callback
         _prepare()
 
     _setup()
