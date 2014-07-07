@@ -49,11 +49,12 @@ Builded with angularJS and momentJS.
 ```
 
 Options for datepicker:
+- mode: define mode of datepicker, default: 'simple', possible modes: 'simple', 'multiple'
 - start: init datepicker starting from this month
 - months: number of months used in datepicker
 - before: days before this date are enabled to select
 - after: days after this date are enabled to select
-- filter: funtion for filtering enabled dates, takes day as param, return true if day is selectable
+- filter: function for filtering enabled dates, takes day as param, return true if day is selectable
 - callback: callback parameter to fire after selecting day, takes day as parameter
 
 To support IE8 add those polyfills:

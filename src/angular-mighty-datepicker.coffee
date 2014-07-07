@@ -8,7 +8,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
         bindonce ng-repeat="month in months track by $index">
         <div class="mighty-picker__month-name" ng-bind="month.name"></div>
         <table class="mighty-picker-calendar">
-          <tr class="mighty-picker-callendar__days">
+          <tr class="mighty-picker-calendar__days">
             <th bindonce ng-repeat="day in month.weeks[1]"
               class="mighty-picker-calendar__weekday"
               bo-text="day.date.format('dd')">
@@ -18,9 +18,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
             <td
                 bo-class='{
                   "mighty-picker-calendar__day": day,
-                  "mighty-picker-calendar__day-selected": day.selected,
-                  "mighty-picker-calendar__day-disabled": day.disabled,
-                  "mighty-picker-calendar__day-start": day.start
+                  "mighty-picker-calendar__day--selected": day.selected,
+                  "mighty-picker-calendar__day--disabled": day.disabled
                 }'
                 ng-repeat="day in week track by $index" ng-click="select(day)">
                 <div class="mighty-picker-calendar__day-wrapper"
