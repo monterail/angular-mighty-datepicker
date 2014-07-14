@@ -47,6 +47,10 @@ Builded with angularJS and momentJS.
 </body>
 
 ```
+Attributes:
+- ng-model: model for datepicker, momentJS object for 'simple' mode, or array of momentJS objects for 'multiple' mode
+- options: object containing options for datepicker
+- markers: array of markers, containing additional data for certain days, marker is object: {day: momentObject, marker: markerObject}
 
 Options for datepicker:
 - mode: define mode of datepicker, default: 'simple', possible modes: 'simple', 'multiple'
@@ -56,6 +60,7 @@ Options for datepicker:
 - after: days after this date are enabled to select
 - filter: function for filtering enabled dates, takes day as param, return true if day is selectable
 - callback: callback parameter to fire after selecting day, takes day as parameter
+- markerTemplate: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array
 
 To support IE8 add those polyfills:
 - Array.isArray

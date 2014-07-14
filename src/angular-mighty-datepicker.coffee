@@ -19,11 +19,16 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
                 bo-class='{
                   "mighty-picker-calendar__day": day,
                   "mighty-picker-calendar__day--selected": day.selected,
-                  "mighty-picker-calendar__day--disabled": day.disabled
+                  "mighty-picker-calendar__day--disabled": day.disabled,
+                  "mighty-picker-calendar__day--marked": day.marker
                 }'
                 ng-repeat="day in week track by $index" ng-click="select(day)">
                 <div class="mighty-picker-calendar__day-wrapper"
                   bo-text="day.date.date()"></div>
+                <div class="mighty-picker-calendar__day-marker"
+                  ng-if="day.marker"
+                  ng-bind-template="">
+                </div>
             </td>
           </tr>
         </table>
@@ -39,12 +44,14 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
     start: null
     filter: undefined
     callback: undefined
+    markerTemplate: "{{ day.marker }}"
   restrict: "AE"
   replace: true
   template: '<div class="mighty-picker__holder"></div>'
   scope:
     model: '=ngModel'
     options: '='
+    markers: '='
 
   link: ($scope, $element, $attrs) ->
     _bake = ->
@@ -61,6 +68,13 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
       withinLimits &&= day.isBefore($scope.options.before) if $scope.options.before
       withinLimits &&= day.isAfter($scope.options.after) if $scope.options.after
       withinLimits
+
+    _getMarker = (day) ->
+      ix = _indexOfMoment($scope.markerIndex, day, 'day')
+      if ix > -1
+        return $scope.markers[ix].marker
+      else
+        return undefined
 
     _isSelected = (day) ->
       switch $scope.options.mode
@@ -81,6 +95,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
         date: day
         selected: _isSelected(day) && withinMonth
         disabled: !(withinLimits && withinMonth && filter)
+        marker: _getMarker(day) if withinMonth
       days
 
     _buildMonth = (time) ->
@@ -125,6 +140,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
       $scope.options.start =
         $scope.options.start || start || moment().startOf('day')
+
+      $scope.markerIndex = (marker.day for marker in $scope.markers) if $scope.markers
+      pickerTemplate = pickerTemplate.replace('ng-bind-template=""',
+        'ng-bind-template="' + $scope.options.markerTemplate + '"')
 
     _prepare = ->
       $scope.months = []

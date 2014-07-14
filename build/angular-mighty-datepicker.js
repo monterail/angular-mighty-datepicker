@@ -3,7 +3,7 @@
 
   angular.module("mightyDatepicker").directive("mightyDatepicker", function($compile) {
     var options, pickerTemplate;
-    pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\" ng-click=\"moveMonth(1)\">>></button>\n</div>";
+    pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker\"\n              ng-if=\"day.marker\"\n              ng-bind-template=\"\">\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\" ng-click=\"moveMonth(1)\">>></button>\n</div>";
     options = {
       mode: "simple",
       after: null,
@@ -11,7 +11,8 @@
       months: 1,
       start: null,
       filter: void 0,
-      callback: void 0
+      callback: void 0,
+      markerTemplate: "{{ day.marker }}"
     };
     return {
       restrict: "AE",
@@ -19,10 +20,11 @@
       template: '<div class="mighty-picker__holder"></div>',
       scope: {
         model: '=ngModel',
-        options: '='
+        options: '=',
+        markers: '='
       },
       link: function($scope, $element, $attrs) {
-        var _bake, _build, _buildMonth, _buildWeek, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
+        var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
         _bake = function() {
           var domEl;
           domEl = $compile(angular.element(pickerTemplate))($scope);
@@ -49,6 +51,15 @@
           }
           return withinLimits;
         };
+        _getMarker = function(day) {
+          var ix;
+          ix = _indexOfMoment($scope.markerIndex, day, 'day');
+          if (ix > -1) {
+            return $scope.markers[ix].marker;
+          } else {
+            return void 0;
+          }
+        };
         _isSelected = function(day) {
           switch ($scope.options.mode) {
             case "multiple":
@@ -73,7 +84,8 @@
             return {
               date: day,
               selected: _isSelected(day) && withinMonth,
-              disabled: !(withinLimits && withinMonth && filter)
+              disabled: !(withinLimits && withinMonth && filter),
+              marker: withinMonth ? _getMarker(day) : void 0
             };
           });
           return days;
@@ -102,7 +114,7 @@
           };
         };
         _setup = function() {
-          var attr, dates, start, tempOptions, v, _ref;
+          var attr, dates, marker, start, tempOptions, v, _ref;
           tempOptions = {};
           for (attr in options) {
             v = options[attr];
@@ -134,7 +146,20 @@
                 start = moment($scope.model);
               }
           }
-          return $scope.options.start = $scope.options.start || start || moment().startOf('day');
+          $scope.options.start = $scope.options.start || start || moment().startOf('day');
+          if ($scope.markers) {
+            $scope.markerIndex = (function() {
+              var _i, _len, _ref1, _results;
+              _ref1 = $scope.markers;
+              _results = [];
+              for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+                marker = _ref1[_i];
+                _results.push(marker.day);
+              }
+              return _results;
+            })();
+          }
+          return pickerTemplate = pickerTemplate.replace('ng-bind-template=""', 'ng-bind-template="' + $scope.options.markerTemplate + '"');
         };
         _prepare = function() {
           var m;

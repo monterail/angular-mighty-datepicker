@@ -1,9 +1,25 @@
 .mighty-picker-calendar__day {
   cursor: pointer;
+  position: relative;
 }
 .mighty-picker-calendar__day--disabled {
   color: #aaa;
   cursor: auto;
+}
+.mighty-picker-calendar__day-marker {
+  display: none;
+  position: absolute;
+  background: #fff;
+  padding: 4px 6px;
+  border: 1px solid #aaa;
+  top: -20px;
+}
+.mighty-picker-calendar__day--marked:hover .mighty-picker-calendar__day-marker {
+  display: block;
+}
+.mighty-picker-calendar__day--marked {
+  color: orange;
+  font-weight: bold;
 }
 .mighty-picker-calendar__day--selected {
   color: #3b5;
