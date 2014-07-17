@@ -63,6 +63,9 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
         return key if element.isSame(value, match)
       -1
 
+    _indexMarkers = ->
+      $scope.markerIndex = (marker.day for marker in $scope.markers) if $scope.markers
+
     _withinLimits = (day, month) ->
       withinLimits = true
       withinLimits &&= day.isBefore($scope.options.before) if $scope.options.before
@@ -141,7 +144,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
       $scope.options.start =
         $scope.options.start || start || moment().startOf('day')
 
-      $scope.markerIndex = (marker.day for marker in $scope.markers) if $scope.markers
+      _indexMarkers()
       pickerTemplate = pickerTemplate.replace('ng-bind-template=""',
         'ng-bind-template="' + $scope.options.markerTemplate + '"')
 
@@ -173,6 +176,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
             $scope.model = day.date
         $scope.options.callback day.date if $scope.options.callback
         _prepare()
+
+    $scope.$watchCollection 'markers', (newMarkers, oldMarkers) ->
+      _indexMarkers()
+      _prepare()
 
     _setup()
     _build()

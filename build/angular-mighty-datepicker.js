@@ -24,7 +24,7 @@
         markers: '='
       },
       link: function($scope, $element, $attrs) {
-        var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
+        var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
         _bake = function() {
           var domEl;
           domEl = $compile(angular.element(pickerTemplate))($scope);
@@ -39,6 +39,21 @@
             }
           }
           return -1;
+        };
+        _indexMarkers = function() {
+          var marker;
+          if ($scope.markers) {
+            return $scope.markerIndex = (function() {
+              var _i, _len, _ref, _results;
+              _ref = $scope.markers;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                marker = _ref[_i];
+                _results.push(marker.day);
+              }
+              return _results;
+            })();
+          }
         };
         _withinLimits = function(day, month) {
           var withinLimits;
@@ -114,7 +129,7 @@
           };
         };
         _setup = function() {
-          var attr, dates, marker, start, tempOptions, v, _ref;
+          var attr, dates, start, tempOptions, v, _ref;
           tempOptions = {};
           for (attr in options) {
             v = options[attr];
@@ -147,18 +162,7 @@
               }
           }
           $scope.options.start = $scope.options.start || start || moment().startOf('day');
-          if ($scope.markers) {
-            $scope.markerIndex = (function() {
-              var _i, _len, _ref1, _results;
-              _ref1 = $scope.markers;
-              _results = [];
-              for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-                marker = _ref1[_i];
-                _results.push(marker.day);
-              }
-              return _results;
-            })();
-          }
+          _indexMarkers();
           return pickerTemplate = pickerTemplate.replace('ng-bind-template=""', 'ng-bind-template="' + $scope.options.markerTemplate + '"');
         };
         _prepare = function() {
@@ -202,6 +206,10 @@
             return _prepare();
           }
         };
+        $scope.$watchCollection('markers', function(newMarkers, oldMarkers) {
+          _indexMarkers();
+          return _prepare();
+        });
         _setup();
         return _build();
       }

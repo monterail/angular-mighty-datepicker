@@ -12,7 +12,7 @@
   background: #fff;
   padding: 4px 6px;
   border: 1px solid #aaa;
-  top: -20px;
+  bottom: 16px;
 }
 .mighty-picker-calendar__day--marked:hover .mighty-picker-calendar__day-marker {
   display: block;

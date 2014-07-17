@@ -38,8 +38,14 @@
 
       $scope.date = null;
       $scope.multi = [moment(), moment().add('day', 2), moment().add('day', 5)];
+      $scope.mark = moment();
       $scope.options = {months: 1, after: moment()}
       $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", after: moment(), callback: _callthis, filter: _filter}
+      $scope.optionsK = {months: 1, after: moment()}
+
+      $scope.addMarker = function() {
+        $scope.markers.push({day: $scope.mark, marker: 'new marker'});
+      }
 
     });
   </script>
@@ -55,7 +61,7 @@
   <div ng-controller="TestCtrl">
     <div>
       <h1>Simple date picker</h1>
-      <mighty-datepicker ng-model="date" options="options" markers="markers"></mighty-datepicker>
+      <mighty-datepicker ng-model="date" options="options"></mighty-datepicker>
       <pre>
         {{date | json}}
       </pre>
@@ -67,10 +73,11 @@
       <pre ng-repeat="day in multi">
         {{ day | json}}
       </pre>
-    <!-- <div>
-      <h1>Date range picker</h1>
-      <mighty-datepicker ng-model="range"></mighty-datepicker>
-    </div> -->
+    <div>
+      <h1>Date picker with markers</h1>
+      <mighty-datepicker ng-model="mark" options="optionsK" markers="markers"></mighty-datepicker>
+      <button ng-click="addMarker()">Add marker on selected day</button>
+    </div>
   </div>
 </body>
 </html>
