@@ -25,9 +25,11 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
                 ng-repeat="day in week track by $index" ng-click="select(day)">
                 <div class="mighty-picker-calendar__day-wrapper"
                   bo-text="day.date.date()"></div>
-                <div class="mighty-picker-calendar__day-marker"
-                  ng-if="day.marker"
-                  ng-bind-template="">
+                <div class="mighty-picker-calendar__day-marker-wrapper">
+                  <div class="mighty-picker-calendar__day-marker"
+                    ng-if="day.marker"
+                    ng-bind-template="">
+                  </div>
                 </div>
             </td>
           </tr>
