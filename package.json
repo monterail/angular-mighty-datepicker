@@ -14,7 +14,7 @@
   ],
   "devDependencies": {
     "beepbeep": "^1.2.0",
-    "gulp": "~3.6.2",
+    "gulp": "~3.8.10",
     "gulp-bower": "0.0.4",
     "gulp-changed": "~0.3.0",
     "gulp-clean": "~0.2.4",

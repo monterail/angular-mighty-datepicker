@@ -12,7 +12,8 @@
       start: null,
       filter: void 0,
       callback: void 0,
-      markerTemplate: "{{ day.marker }}"
+      markerTemplate: "{{ day.marker }}",
+      template: pickerTemplate
     };
     return {
       restrict: "AE",
@@ -27,7 +28,7 @@
         var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
         _bake = function() {
           var domEl;
-          domEl = $compile(angular.element(pickerTemplate))($scope);
+          domEl = $compile(angular.element($scope.options.template))($scope);
           return $element.append(domEl);
         };
         _indexOfMoment = function(array, element, match) {

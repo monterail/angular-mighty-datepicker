@@ -47,6 +47,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
     filter: undefined
     callback: undefined
     markerTemplate: "{{ day.marker }}"
+    template: pickerTemplate
   restrict: "AE"
   replace: true
   template: '<div class="mighty-picker__holder"></div>'
@@ -57,7 +58,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
   link: ($scope, $element, $attrs) ->
     _bake = ->
-      domEl = $compile(angular.element(pickerTemplate))($scope)
+      domEl = $compile(angular.element($scope.options.template))($scope)
       $element.append(domEl)
 
     _indexOfMoment = (array, element, match) ->
