@@ -61,6 +61,7 @@ Options for datepicker:
 - filter: function for filtering enabled dates, takes day as param, return true if day is selectable
 - callback: callback parameter to fire after selecting day, takes day as parameter
 - markerTemplate: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array
+- template: string with custom template of picker directive (see `test/index.html` for example use)
 
 To support IE8 add those polyfills:
 - Array.isArray
