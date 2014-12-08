@@ -212,7 +212,20 @@
           return _prepare();
         });
         _setup();
-        return _build();
+        _build();
+        switch ($scope.options.mode) {
+          case "multiple":
+            return $scope.$watchCollection('model', function(newVals, oldVals) {
+              return _prepare();
+            });
+          case "simple":
+            return $scope.$watch('model', function(newVal, oldVal) {
+              if (!oldVal || oldVal && !oldVal.isSame(newVal, 'day')) {
+                $scope.model = newVal;
+                return _prepare();
+              }
+            });
+        }
       }
     };
   });

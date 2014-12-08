@@ -186,3 +186,14 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
     _setup()
     _build()
+
+    switch $scope.options.mode
+      when "multiple"
+        $scope.$watchCollection 'model', (newVals, oldVals) ->
+          _prepare()
+
+      when "simple"
+        $scope.$watch 'model', (newVal, oldVal) ->
+          if !oldVal || oldVal && !oldVal.isSame(newVal, 'day')
+            $scope.model = newVal
+            _prepare()
