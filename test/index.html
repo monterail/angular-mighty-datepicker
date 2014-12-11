@@ -42,12 +42,18 @@
       $scope.multi = [moment(), moment().add('day', 2), moment().add('day', 5)];
       $scope.mark = moment();
       $scope.options = {months: 1, after: moment(), template: template};
-      $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", after: moment().add('month', -1), callback: _callthis, filter: _filter};
-      $scope.optionsK = {months: 1, after: moment()};
+      $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", callback: _callthis, filter: _filter};
+      $scope.optionsMAfter = moment().add('month', -1);
+      $scope.optionsK = {months: 1};
 
       $scope.dateSt = moment();
-      $scope.optionsSt = {}
+      $scope.optionsSt = {};
 
+
+      $scope.dateDbA = moment();
+      $scope.optionsDbA = {};
+      $scope.dateDbB = moment();
+      $scope.optionsDbB = {};
 
       $scope.addMarker = function() {
         $scope.markers.push({day: $scope.mark, marker: 'new marker'});
@@ -89,6 +95,11 @@
       <h1>Date picker with date and no start</h1>
       <mighty-datepicker ng-model="dateSt" options="optionsSt"></mighty-datepicker>
       <span>{{ dateSt }}}</span>
+    </div>
+    <div>
+      <h1>Double datepicker for data range</h1>
+      <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" style="display: inline-block"></mighty-datepicker>
+      <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" style="display: inline-block"></mighty-datepicker>
     </div>
   </div>
 </body>

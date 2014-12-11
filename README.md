@@ -51,13 +51,13 @@ Attributes:
 - ng-model: model for datepicker, momentJS object for 'simple' mode, or array of momentJS objects for 'multiple' mode
 - options: object containing options for datepicker
 - markers: array of markers, containing additional data for certain days, marker is object: {day: momentObject, marker: markerObject}
+- after: days after this date are enabled to select
+- before: days before this date are enabled to select
 
 Options for datepicker:
 - mode: define mode of datepicker, default: 'simple', possible modes: 'simple', 'multiple'
 - start: init datepicker starting from this month
 - months: number of months used in datepicker
-- before: days before this date are enabled to select
-- after: days after this date are enabled to select
 - filter: function for filtering enabled dates, takes day as param, return true if day is selectable
 - callback: callback parameter to fire after selecting day, takes day as parameter
 - markerTemplate: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array
@@ -65,3 +65,48 @@ Options for datepicker:
 
 To support IE8 add those polyfills:
 - Array.isArray
+
+Changelog:
+
+0.0.13
+- `after`/`before` options moved to attributes (for easy databinding and updating)
+- added example with double datepicker for date range
+- added changelog in readme section
+
+0.0.12
+- fixed datepicker for model that is not momentJS object
+
+0.0.11
+- datepicker is updated when model changes (both single and multiple modes)
+
+0.0.10
+- option for custom template
+
+0.0.9
+- fixed marker styling for Firefox
+
+0.0.8
+- watch and reindex markers when changed
+
+0.0.7
+- simple markers for calendar days
+
+0.0.6
+- fixed typos and readme
+- BEM classes fixed
+
+0.0.5
+- filter and callback options
+
+0.0.4
+- options object fix
+
+0.0.3
+- changed classnames for elements
+
+0.0.2
+- added before/after limits
+- multiple date select
+
+0.0.1
+- initial release with simple datepicker functionality

@@ -46,8 +46,6 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
   """
   options =
     mode: "simple"
-    after: null
-    before: null
     months: 1
     start: null
     filter: undefined
@@ -61,6 +59,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
     model: '=ngModel'
     options: '='
     markers: '='
+    after: '='
+    before: '='
 
   link: ($scope, $element, $attrs) ->
     _bake = ->
@@ -77,8 +77,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
     _withinLimits = (day, month) ->
       withinLimits = true
-      withinLimits &&= day.isBefore($scope.options.before) if $scope.options.before
-      withinLimits &&= day.isAfter($scope.options.after) if $scope.options.after
+      withinLimits &&= day.isBefore($scope.before) if $scope.before
+      withinLimits &&= day.isAfter($scope.after) if $scope.after
       withinLimits
 
     _getMarker = (day) ->
@@ -204,3 +204,15 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
           if !oldVal || oldVal && !newVal.isSame(oldVal, 'day')
             $scope.model = newVal
             _prepare()
+
+    $scope.$watch 'before', (newVal, oldVal) ->
+      if newVal
+        newVal = moment(newVal) unless moment.isMoment(newVal)
+        unless newVal.isSame(oldVal, 'day')
+          _prepare()
+
+    $scope.$watch 'after', (newVal, oldVal) ->
+      if newVal
+        newVal = moment(newVal) unless moment.isMoment(newVal)
+        unless newVal.isSame(oldVal, 'day')
+          _prepare()

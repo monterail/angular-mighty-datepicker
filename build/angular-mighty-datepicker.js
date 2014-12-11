@@ -6,8 +6,6 @@
     pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\"\n    ng-click=\"moveMonth(-1)\">\n    <<\n  </button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\"\n    ng-click=\"moveMonth(1)\">\n    >>\n  </button>\n</div>";
     options = {
       mode: "simple",
-      after: null,
-      before: null,
       months: 1,
       start: null,
       filter: void 0,
@@ -22,7 +20,9 @@
       scope: {
         model: '=ngModel',
         options: '=',
-        markers: '='
+        markers: '=',
+        after: '=',
+        before: '='
       },
       link: function($scope, $element, $attrs) {
         var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isSelected, _prepare, _setup, _withinLimits;
@@ -59,11 +59,11 @@
         _withinLimits = function(day, month) {
           var withinLimits;
           withinLimits = true;
-          if ($scope.options.before) {
-            withinLimits && (withinLimits = day.isBefore($scope.options.before));
+          if ($scope.before) {
+            withinLimits && (withinLimits = day.isBefore($scope.before));
           }
-          if ($scope.options.after) {
-            withinLimits && (withinLimits = day.isAfter($scope.options.after));
+          if ($scope.after) {
+            withinLimits && (withinLimits = day.isAfter($scope.after));
           }
           return withinLimits;
         };
@@ -215,11 +215,12 @@
         _build();
         switch ($scope.options.mode) {
           case "multiple":
-            return $scope.$watchCollection('model', function(newVals, oldVals) {
+            $scope.$watchCollection('model', function(newVals, oldVals) {
               return _prepare();
             });
+            break;
           case "simple":
-            return $scope.$watch('model', function(newVal, oldVal) {
+            $scope.$watch('model', function(newVal, oldVal) {
               if (!moment.isMoment(newVal)) {
                 newVal = moment(newVal);
               }
@@ -229,6 +230,26 @@
               }
             });
         }
+        $scope.$watch('before', function(newVal, oldVal) {
+          if (newVal) {
+            if (!moment.isMoment(newVal)) {
+              newVal = moment(newVal);
+            }
+            if (!newVal.isSame(oldVal, 'day')) {
+              return _prepare();
+            }
+          }
+        });
+        return $scope.$watch('after', function(newVal, oldVal) {
+          if (newVal) {
+            if (!moment.isMoment(newVal)) {
+              newVal = moment(newVal);
+            }
+            if (!newVal.isSame(oldVal, 'day')) {
+              return _prepare();
+            }
+          }
+        });
       }
     };
   });
