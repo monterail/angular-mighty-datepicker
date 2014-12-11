@@ -3,7 +3,10 @@ angular.module "mightyDatepicker", ['pasvaz.bindonce']
 angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
-      <button type="button" class="mighty-picker__prev-month" ng-click="moveMonth(-1)"><<</button>
+      <button type="button" class="mighty-picker__prev-month"
+        ng-click="moveMonth(-1)">
+        <<
+      </button>
       <div class="mighty-picker__month"
         bindonce ng-repeat="month in months track by $index">
         <div class="mighty-picker__month-name" ng-bind="month.name"></div>
@@ -35,7 +38,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
           </tr>
         </table>
       </div>
-      <button type="button" class="mighty-picker__next-month" ng-click="moveMonth(1)">>></button>
+      <button type="button" class="mighty-picker__next-month"
+        ng-click="moveMonth(1)">
+        >>
+      </button>
     </div>
   """
   options =
@@ -194,6 +200,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
 
       when "simple"
         $scope.$watch 'model', (newVal, oldVal) ->
-          if !oldVal || oldVal && !oldVal.isSame(newVal, 'day')
+          newVal = moment(newVal) unless moment.isMoment(newVal)
+          if !oldVal || oldVal && !newVal.isSame(oldVal, 'day')
             $scope.model = newVal
             _prepare()
