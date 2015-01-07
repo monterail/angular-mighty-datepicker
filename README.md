@@ -68,6 +68,12 @@ To support IE8 add those polyfills:
 
 Changelog:
 
+0.0.15
+- when updating model in `simple` mode calendar moves to current month of new model
+
+0.0.14
+-
+
 0.0.13
 - `after`/`before` options moved to attributes (for easy databinding and updating)
 - added example with double datepicker for date range

@@ -226,6 +226,9 @@
               }
               if (!oldVal || oldVal && !newVal.isSame(oldVal, 'day')) {
                 $scope.model = newVal;
+                if (oldVal) {
+                  $scope.options.start = newVal;
+                }
                 return _prepare();
               }
             });
