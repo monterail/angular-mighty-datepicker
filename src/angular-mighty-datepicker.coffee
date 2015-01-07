@@ -154,7 +154,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
         $scope.options.start || start || moment().startOf('day')
 
       _indexMarkers()
-      $scope.options.template = pickerTemplate.replace('ng-bind-template=""',
+      $scope.options.template = $scope.options.template.replace('ng-bind-template=""',
         'ng-bind-template="' + $scope.options.markerTemplate + '"')
 
     _prepare = ->

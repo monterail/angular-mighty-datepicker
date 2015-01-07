@@ -164,7 +164,7 @@
           }
           $scope.options.start = $scope.options.start || start || moment().startOf('day');
           _indexMarkers();
-          return $scope.options.template = pickerTemplate.replace('ng-bind-template=""', 'ng-bind-template="' + $scope.options.markerTemplate + '"');
+          return $scope.options.template = $scope.options.template.replace('ng-bind-template=""', 'ng-bind-template="' + $scope.options.markerTemplate + '"');
         };
         _prepare = function() {
           var m;

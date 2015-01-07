@@ -68,11 +68,14 @@ To support IE8 add those polyfills:
 
 Changelog:
 
+0.0.16
+- cutsom templates fixed
+
 0.0.15
 - when updating model in `simple` mode calendar moves to current month of new model
 
 0.0.14
--
+- fix for custom markers in custom templates
 
 0.0.13
 - `after`/`before` options moved to attributes (for easy databinding and updating)
