@@ -68,6 +68,9 @@ To support IE8 add those polyfills:
 
 Changelog:
 
+0.0.17
+- updating model in `simple` mode fixed (not tangling with model anymore)
+
 0.0.16
 - cutsom templates fixed
 

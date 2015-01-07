@@ -204,7 +204,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
           if !oldVal || oldVal && !newVal.isSame(oldVal, 'day')
             $scope.model = newVal
             if oldVal
-              $scope.options.start = newVal
+              $scope.options.start = moment(newVal)
             _prepare()
 
     $scope.$watch 'before', (newVal, oldVal) ->

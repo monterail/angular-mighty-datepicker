@@ -227,7 +227,7 @@
               if (!oldVal || oldVal && !newVal.isSame(oldVal, 'day')) {
                 $scope.model = newVal;
                 if (oldVal) {
-                  $scope.options.start = newVal;
+                  $scope.options.start = moment(newVal);
                 }
                 return _prepare();
               }
