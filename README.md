@@ -1,6 +1,6 @@
 # Angular based datepicker with mighty options
 
-Builded with angularJS and momentJS.
+Built with angularJS and momentJS.
 
 ```javascript
     angular.module("TestApp", ["mightyDatepicker"]);
