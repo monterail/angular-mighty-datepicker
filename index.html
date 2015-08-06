@@ -122,6 +122,11 @@ _filter = function (day) {
           <li><code>markerTemplate</code>: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array</li>
           <li><code>template</code>: string with custom template of picker directive (see test/index.html for example use)</li>
         </ul>
+
+        <p>To support IE8 add those polyfills:</p>
+        <ul>
+          <li><code>Array.isArray</code></li>
+        </ul>
       </div>
       <h1>Demos</h1>
       <div ng-controller="TestCtrl">
