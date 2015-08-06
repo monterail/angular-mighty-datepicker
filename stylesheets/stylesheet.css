@@ -103,12 +103,6 @@ img {
   max-width:100%;
 }
 
-header {
-  width:270px;
-  float:left;
-  position:fixed;
-}
-
 header ul {
   list-style:none;
   height:40px;
@@ -192,8 +186,7 @@ header ul a strong {
 }
 
 section {
-  width:500px;
-  float:right;
+  width:100%;
   padding-bottom:50px;
 }
 
@@ -206,13 +199,6 @@ hr {
   background:#e5e5e5;
   height:1px;
   margin:0 0 20px;
-}
-
-footer {
-  width:270px;
-  float:left;
-  position:fixed;
-  bottom:50px;
 }
 
 @media print, screen and (max-width: 960px) {
@@ -284,4 +270,54 @@ footer {
     font-size:12pt;
     color:#444;
   }
+}
+
+.with-love a {
+  text-decoration: none;
+  color: #777;
+}
+
+.with-love img {
+  vertical-align: bottom;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.col-1,
+.col-2 {
+  width: 50%;
+}
+
+.col-1 {
+  float: left;
+}
+
+.col-2 {
+  float: right;
+}
+
+.demo--simple .mighty-picker__wrapperxx {
+  width: 48%;
+  float: left;
+}
+
+.demo--multiple .mighty-picker__month {
+  width: 28%;
+}
+
+.demo--multiple .mighty-picker-calendar {
+  width: 80%;
+}
+
+.demo--multiple .mighty-picker-calendar th,
+.demo--multiple .mighty-picker-calendar td {
+  padding: 5px;
 }

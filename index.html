@@ -27,14 +27,14 @@
         }
       ]
 
-      _callthis = function(day) {
-        console.log("call this: ", day);
-      }
+_callthis = function(day) {
+  console.log("call this: ", day);
+}
 
-      _filter = function (day) {
-        w = day.weekday();
-        return w < 6 && w > 0;
-      }
+_filter = function (day) {
+  w = day.weekday();
+  return w < 6 && w > 0;
+}
 
       var template = "<div class=\"mighty-picker__wrapperxx\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div style=\"font-style: italic;\" class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\" ng-click=\"moveMonth(1)\">>></button>\n</div>";
 
@@ -66,70 +66,121 @@
 </head>
 <body ng-app="testapp">
   <div class="wrapper">
-    <header>
-      <h1>Angular Mighty Datepicker</h1>
-      <p>
-        <a href="http://monterail.com/">
-          <img src="http://monterail.com/images/new-logo.png" alt="Monterail">
-        </a>
-      </p>
-      <p class="view">
-        <a href="https://github.com/monterail/angular-mighty-datepicker">
-          View the project on GitHub
-          <small>monterail/angular-mighty-datepicker</small>
-        </a>
-      </p>
+    <header class="cf">
+      <div class="col-1">
+        <h1>Angular Mighty Datepicker</h1>
+        <p class="with-love"><a href="http://monterail.com/" alt="love">with <img src="http://monterail.com/images/logo/Monterail-Logo-Vertical-Symbol%20emoticon%20hipchat.png"> by <strong>Monterail</strong></a></p>
+      </div>
 
-      <ul>
-        <li>
-          <a href="https://github.com/monterail/angular-mighty-datepicker/zip/master">
-            Download <strong>ZIP File</strong>
+      <div class="col-2">
+        <p class="view">
+          <a href="https://github.com/monterail/angular-mighty-datepicker">
+            View the project on GitHub
+            <small>monterail/angular-mighty-datepicker</small>
           </a>
-        </li>
-        <li>
-          <a href="https://github.com/monterail/angular-mighty-datepicker/tarball/master">
-            Download <strong>TAR Ball</strong>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/monterail/angular-mighty-datepicke">
-            Fork On <strong>GitHub</strong>
-          </a>
-        </li>
+        </p>
+        <ul>
+          <li>
+            <a href="https://github.com/monterail/angular-mighty-datepicker/zip/master">
+              Download <strong>ZIP File</strong>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/monterail/angular-mighty-datepicker/tarball/master">
+              Download <strong>TAR Ball</strong>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/monterail/angular-mighty-datepicke">
+              Fork On <strong>GitHub</strong>
+            </a>
+          </li>
+        </ul>
+      </div>
     </header>
     <section>
+      <div>
+        <h3>JS</h3>
+        <script src="https://gist.github.com/hodak/028a87e93f768f7a7b41.js"></script>
+        <h3>HTML</h3>
+        <script src="https://gist.github.com/hodak/ee65580bc35dbad6196f.js"></script>
+        <h3>Attributes</h3>
+        <ul>
+          <li><code>ng-model</code>: model for datepicker, momentJS object for 'simple' mode, or array of momentJS objects for 'multiple' mode</li>
+          <li><code>options</code>: object containing options for datepicker</li>
+          <li><code>markers</code>: array of markers, containing additional data for certain days, marker is object: {day: momentObject, marker: markerObject}</li>
+          <li><code>after</code>: days after this date are enabled to select</li>
+          <li><code>before</code>: days before this date are enabled to select</li>
+        </ul>
+        <h3>Options</h3>
+        <ul>
+          <li><code>mode</code>: define mode of datepicker, default: 'simple', possible modes: 'simple', 'multiple'</li>
+          <li><code>start</code>: init datepicker starting from this month</li>
+          <li><code>months</code>: number of months used in datepicker</li>
+          <li><code>filter</code>: function for filtering enabled dates, takes day as param, return true if day is selectable</li>
+          <li><code>callback</code>: callback parameter to fire after selecting day, takes day as parameter</li>
+          <li><code>markerTemplate</code>: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array</li>
+          <li><code>template</code>: string with custom template of picker directive (see test/index.html for example use)</li>
+        </ul>
+      </div>
+      <h1>Demos</h1>
       <div ng-controller="TestCtrl">
-        <div>
-          <h1>Simple date picker</h1>
-          <mighty-datepicker ng-model="date" options="options"></mighty-datepicker>
-          <mighty-datepicker ng-model="date" options="options"></mighty-datepicker>
-          <pre>
-            {{date | json}}
-          </pre>
+        <div class="demo demo--simple">
+          <h2>Simple date picker</h2>
+          <div class="cf">
+            <mighty-datepicker ng-model="date" options="options"></mighty-datepicker>
+            <mighty-datepicker ng-model="date" options="options"></mighty-datepicker>
+          </div>
+
+          <pre>$scope.date
+=> {{date | json}}</pre>
+
+          <script src="https://gist.github.com/hodak/9139b3dc448080d08adb.js"></script>
         </div>
-        <div>
-          <h1>Multiple date picker</h1>
+
+        <hr>
+
+        <div class="demo demo--multiple">
+          <h2>Multiple date picker</h2>
           <mighty-datepicker ng-model="multi" options="optionsM"></mighty-datepicker>
+          <code>ng-repeat="day in multi"</code>
+          <pre ng-repeat="day in multi">{{ day | json}}</pre>
+          <script src="https://gist.github.com/hodak/c98111505f2cff9dfd05.js"></script>
         </div>
-          <pre ng-repeat="day in multi">
-            {{ day | json}}
-          </pre>
-          <div>
-            <h1>Date picker with markers</h1>
-            <mighty-datepicker ng-model="mark" options="optionsK" markers="markers"></mighty-datepicker>
-            <button ng-click="addMarker()">Add marker on selected day</button>
-          </div>
-          <div>
-            <h1>Date picker with date and no start</h1>
-            <mighty-datepicker ng-model="dateSt" options="optionsSt"></mighty-datepicker>
-            <span>{{ dateSt }}}</span>
-          </div>
-          <div>
-            <h1>Double datepicker for data range</h1>
-            <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" style="display: inline-block"></mighty-datepicker>
-            <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" style="display: inline-block"></mighty-datepicker>
-          </div>
+
+        <hr>
+
+        <div class="demo demo--markers">
+          <h2>Date picker with markers</h2>
+          <mighty-datepicker ng-model="mark" options="optionsK" markers="markers"></mighty-datepicker>
+          <button ng-click="addMarker()">Add marker on selected day</button>
+          <br>
+          <script src="https://gist.github.com/hodak/8bfe4d78c9ce4319c485.js"></script>
         </div>
+
+        <hr>
+
+        <div class="demo demo--st">
+          <h2>Date picker with date and no start</h2>
+          <mighty-datepicker ng-model="dateSt" options="optionsSt"></mighty-datepicker>
+          <pre>$scope.dateSt
+=> {{ dateSt }}</pre>
+          <script src="https://gist.github.com/hodak/bf56f64f3d4ca97aea7f.js"></script>
+        </div>
+
+        <hr>
+
+        <div>
+          <h2>Double datepicker for date range</h2>
+          <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" style="display: inline-block"></mighty-datepicker>
+          <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" style="display: inline-block"></mighty-datepicker>
+          <pre>$scope.dateDbA
+=> {{ dateDbA }}
+$scope.dateDbB
+=> {{ dateDbB }}</pre>
+          <script src="https://gist.github.com/hodak/67765b9efc84f5bdc209.js"></script>
+        </div>
+      </div>
     </section>
     <footer>
       <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
