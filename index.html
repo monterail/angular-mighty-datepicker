@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Angular-mighty-datepicker by monterail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Angular-mighty-datepicker</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/monterail/angular-mighty-datepicker" class="btn">View on GitHub</a>
+      <a href="https://github.com/monterail/angular-mighty-datepicker/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/monterail/angular-mighty-datepicker/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="angular-based-datepicker-with-mighty-options" class="anchor" href="#angular-based-datepicker-with-mighty-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Angular based datepicker with mighty options</h1>
+
+<p>Built with angularJS and momentJS.</p>
+
+<div class="highlight highlight-javascript"><pre>    angular.module(<span class="pl-s"><span class="pl-pds">"</span>TestApp<span class="pl-pds">"</span></span>, [<span class="pl-s"><span class="pl-pds">"</span>mightyDatepicker<span class="pl-pds">"</span></span>]);
+    angular.module(<span class="pl-s"><span class="pl-pds">"</span>TestApp<span class="pl-pds">"</span></span>).controller(<span class="pl-s"><span class="pl-pds">"</span>TestCtrl<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">$scope</span>){
+      <span class="pl-en">_callthis</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">day</span>) {
+        <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">"</span>call this: <span class="pl-pds">"</span></span>, day);
+      }
+
+      <span class="pl-en">_filter</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">day</span>) {
+        w <span class="pl-k">=</span> day.weekday();
+        <span class="pl-k">return</span> w <span class="pl-k">&lt;</span> <span class="pl-c1">6</span> <span class="pl-k">&amp;&amp;</span> w <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>;
+      }
+
+      $scope.date <span class="pl-k">=</span> <span class="pl-c1">null</span>;
+      $scope.<span class="pl-c1">options</span> <span class="pl-k">=</span> {
+        start<span class="pl-k">:</span> moment().<span class="pl-c1">add</span>(<span class="pl-s"><span class="pl-pds">'</span>month<span class="pl-pds">'</span></span>, <span class="pl-k">-</span><span class="pl-c1">1</span>),
+        months<span class="pl-k">:</span> <span class="pl-c1">1</span>,
+        filter<span class="pl-k">:</span> _filter,
+        callback<span class="pl-k">:</span> _callback
+      }
+
+      $scope.multi <span class="pl-k">=</span> [];
+      $scope.optionsM <span class="pl-k">=</span> {
+        months<span class="pl-k">:</span> <span class="pl-c1">3</span>,
+        mode<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>multiple<span class="pl-pds">"</span></span>,
+        after<span class="pl-k">:</span> moment().<span class="pl-c1">add</span>(<span class="pl-s"><span class="pl-pds">'</span>month<span class="pl-pds">'</span></span>, <span class="pl-k">-</span><span class="pl-c1">3</span>),
+        before<span class="pl-k">:</span> moment().<span class="pl-c1">add</span>(<span class="pl-s"><span class="pl-pds">'</span>month<span class="pl-pds">'</span></span>, <span class="pl-c1">3</span>)
+      }
+    });</pre></div>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">body</span> <span class="pl-e">ng-app</span>=<span class="pl-s"><span class="pl-pds">"</span>TestApp<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">div</span> <span class="pl-e">ng-controller</span>=<span class="pl-s"><span class="pl-pds">"</span>TestCtrl<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">div</span>&gt;
+      &lt;<span class="pl-ent">h1</span>&gt;Simple date picker&lt;/<span class="pl-ent">h1</span>&gt;
+      &lt;<span class="pl-ent">mighty</span><span class="pl-e">-datepicker</span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>date<span class="pl-pds">"</span></span> <span class="pl-e">options</span>=<span class="pl-s"><span class="pl-pds">"</span>options<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">mighty</span><span class="pl-e">-datepicker</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+    &lt;<span class="pl-ent">div</span>&gt;
+      &lt;<span class="pl-ent">h1</span>&gt;Multiple date picker&lt;/<span class="pl-ent">h1</span>&gt;
+      &lt;<span class="pl-ent">mighty</span><span class="pl-e">-datepicker</span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>multi<span class="pl-pds">"</span></span> <span class="pl-e">options</span>=<span class="pl-s"><span class="pl-pds">"</span>optionsM<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">mighty</span><span class="pl-e">-datepicker</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+  &lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+</pre></div>
+
+<p>Attributes:</p>
+
+<ul>
+<li>ng-model: model for datepicker, momentJS object for 'simple' mode, or array of momentJS objects for 'multiple' mode</li>
+<li>options: object containing options for datepicker</li>
+<li>markers: array of markers, containing additional data for certain days, marker is object: {day: momentObject, marker: markerObject}</li>
+<li>after: days after this date are enabled to select</li>
+<li>before: days before this date are enabled to select</li>
+</ul>
+
+<p>Options for datepicker:</p>
+
+<ul>
+<li>mode: define mode of datepicker, default: 'simple', possible modes: 'simple', 'multiple'</li>
+<li>start: init datepicker starting from this month</li>
+<li>months: number of months used in datepicker</li>
+<li>filter: function for filtering enabled dates, takes day as param, return true if day is selectable</li>
+<li>callback: callback parameter to fire after selecting day, takes day as parameter</li>
+<li>markerTemplate: template for ng-bind-template, used to display additional data for marked days, default: "{{ day.marker }}", where 'day' is object from markers array</li>
+<li>template: string with custom template of picker directive (see <code>test/index.html</code> for example use)</li>
+</ul>
+
+<p>To support IE8 add those polyfills:</p>
+
+<ul>
+<li>Array.isArray</li>
+</ul>
+
+<p>Changelog:</p>
+
+<p>0.0.17</p>
+
+<ul>
+<li>updating model in <code>simple</code> mode fixed (not tangling with model anymore)</li>
+</ul>
+
+<p>0.0.16</p>
+
+<ul>
+<li>cutsom templates fixed</li>
+</ul>
+
+<p>0.0.15</p>
+
+<ul>
+<li>when updating model in <code>simple</code> mode calendar moves to current month of new model</li>
+</ul>
+
+<p>0.0.14</p>
+
+<ul>
+<li>fix for custom markers in custom templates</li>
+</ul>
+
+<p>0.0.13</p>
+
+<ul>
+<li>
+<code>after</code>/<code>before</code> options moved to attributes (for easy databinding and updating)</li>
+<li>added example with double datepicker for date range</li>
+<li>added changelog in readme section</li>
+</ul>
+
+<p>0.0.12</p>
+
+<ul>
+<li>fixed datepicker for model that is not momentJS object</li>
+</ul>
+
+<p>0.0.11</p>
+
+<ul>
+<li>datepicker is updated when model changes (both single and multiple modes)</li>
+</ul>
+
+<p>0.0.10</p>
+
+<ul>
+<li>option for custom template</li>
+</ul>
+
+<p>0.0.9</p>
+
+<ul>
+<li>fixed marker styling for Firefox</li>
+</ul>
+
+<p>0.0.8</p>
+
+<ul>
+<li>watch and reindex markers when changed</li>
+</ul>
+
+<p>0.0.7</p>
+
+<ul>
+<li>simple markers for calendar days</li>
+</ul>
+
+<p>0.0.6</p>
+
+<ul>
+<li>fixed typos and readme</li>
+<li>BEM classes fixed</li>
+</ul>
+
+<p>0.0.5</p>
+
+<ul>
+<li>filter and callback options</li>
+</ul>
+
+<p>0.0.4</p>
+
+<ul>
+<li>options object fix</li>
+</ul>
+
+<p>0.0.3</p>
+
+<ul>
+<li>changed classnames for elements</li>
+</ul>
+
+<p>0.0.2</p>
+
+<ul>
+<li>added before/after limits</li>
+<li>multiple date select</li>
+</ul>
+
+<p>0.0.1</p>
+
+<ul>
+<li>initial release with simple datepicker functionality</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/monterail/angular-mighty-datepicker">Angular-mighty-datepicker</a> is maintained by <a href="https://github.com/monterail">monterail</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
