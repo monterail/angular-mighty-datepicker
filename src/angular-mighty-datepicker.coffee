@@ -1,6 +1,6 @@
 angular.module "mightyDatepicker", ['pasvaz.bindonce']
 
-angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
+angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($compile) ->
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
       <button type="button" class="mighty-picker__prev-month"
@@ -218,3 +218,4 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
         newVal = moment(newVal) unless moment.isMoment(newVal)
         unless newVal.isSame(oldVal, 'day')
           _prepare()
+]
