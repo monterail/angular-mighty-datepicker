@@ -7,7 +7,7 @@
     "Kamil Nicieja <kamil.nicieja@monterail.com>",
     "Bartosz Erbert <bartosz.erbert@monterail.com>"
   ],
-  "repository": "git://github.com/monterail/angular-mighty-datepicker-strict.git",
+  "repository": "git://github.com/dzincolorado/angular-mighty-datepicker-strict.git",
   "description": "Angular based datepicker with mighty options",
   "main": [
     "build/angular-mighty-datepicker.js",
