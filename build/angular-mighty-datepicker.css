@@ -25,8 +25,7 @@
   font-weight: bold;
 }
 .mighty-picker-calendar__day--selected {
-  color: #3b5;
-  font-weight: bold;
+  background-color: #ffe684;
 }
 .mighty-picker__month {
   display: inline-block;
