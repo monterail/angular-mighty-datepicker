@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.0.18
+- fixing package.json for npm to work
+
 0.0.17
 - updating model in `simple` mode fixed (not tangling with model anymore)
 
