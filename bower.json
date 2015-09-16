@@ -9,10 +9,7 @@
   ],
   "repository": "git://github.com/monterail/angular-mighty-datepicker.git",
   "description": "Angular based datepicker with mighty options",
-  "main": [
-    "build/angular-mighty-datepicker.js",
-    "build/angular-mighty-datepicker.css"
-  ],
+  "main": "build/angular-mighty-datepicker.js",
   "dependencies": {
     "angular": ">= 1.2",
     "angular-bindonce": "*",
