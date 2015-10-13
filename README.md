@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.0.18
+- when two datepickers are used for range selection, additional parameters (`range-from` and `range-to`) allow to highlight selected time range
+
 0.0.17
 - updating model in `simple` mode fixed (not tangling with model anymore)
 
