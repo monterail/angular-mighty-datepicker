@@ -125,10 +125,7 @@
           weeks = [];
           calendarStart = moment(time).startOf('month');
           calendarEnd = moment(time).endOf('month');
-          weeksInMonth = calendarEnd.week() - calendarStart.week();
-          if (weeksInMonth < 0) {
-            weeksInMonth = (calendarStart.weeksInYear() - calendarStart.week()) + calendarEnd.week();
-          }
+          weeksInMonth = 5;
           start = time.startOf('month');
           weeks = (function() {
             var _i, _results;

@@ -127,10 +127,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ($compile) ->
       weeks = []
       calendarStart = moment(time).startOf('month')
       calendarEnd = moment(time).endOf('month')
-      weeksInMonth = calendarEnd.week() - calendarStart.week()
-      if weeksInMonth < 0 # year edge
-        weeksInMonth =
-          (calendarStart.weeksInYear()-calendarStart.week())+calendarEnd.week()
+      weeksInMonth = 5
       start = time.startOf('month')
       weeks =(
         _buildWeek(moment(start).add('weeks', w), moment(start).month()
