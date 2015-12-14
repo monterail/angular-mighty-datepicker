@@ -127,6 +127,7 @@
           calendarEnd = moment(time).endOf('month');
           weeksInMonth = calendarEnd.week() - calendarStart.week();
           if (weeksInMonth < 0) {
+            calendarStart.subtract(1,'day');
             weeksInMonth = (calendarStart.weeksInYear() - calendarStart.week()) + calendarEnd.week();
           }
           start = time.startOf('month');
