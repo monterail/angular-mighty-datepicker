@@ -52,7 +52,7 @@
 
       $scope.dateDbA = moment();
       $scope.optionsDbA = {};
-      $scope.dateDbB = moment();
+      $scope.dateDbB =  moment().add('day', 2);
       $scope.optionsDbB = {};
 
       $scope.addMarker = function() {
@@ -98,8 +98,8 @@
     </div>
     <div>
       <h1>Double datepicker for data range</h1>
-      <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" style="display: inline-block"></mighty-datepicker>
-      <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" style="display: inline-block"></mighty-datepicker>
+      <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" range-from="true" style="display: inline-block"></mighty-datepicker>
+      <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" range-to="true" style="display: inline-block"></mighty-datepicker>
     </div>
   </div>
 </body>
