@@ -5,9 +5,12 @@
 
 ## Changelog:
 
+0.1.1
+- loosen momentjs dependecy ([#8](https://github.com/monterail/angular-mighty-datepicker/pull/8) by [@mrodrigues](https://github.com/mrodrigues)
+
 0.1.0
-- added explicit dependency (#9) by @Jaspur
-- fixed missing week in January for leap year (#16) by @metrox
+- added explicit dependency ([#9](https://github.com/monterail/angular-mighty-datepicker/pull/9)) by [@Jaspur](https://github.com/Jaspur)
+- fixed missing week in January for leap year ([#16](https://github.com/monterail/angular-mighty-datepicker/pull/16)) by [@metrox](https://github.com/metrox)
 
 0.0.18
 - when two datepickers are used for range selection, additional parameters (`range-from` and `range-to`) allow to highlight selected time range
