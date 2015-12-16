@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+0.1.0
+- added explicit dependency (#9) by @Jaspur
+- fixed missing week in January for leap year (#16) by @metrox
+
 0.0.18
 - when two datepickers are used for range selection, additional parameters (`range-from` and `range-to`) allow to highlight selected time range
 
