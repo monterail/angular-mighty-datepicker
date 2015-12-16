@@ -6,7 +6,7 @@
 ## Changelog:
 
 0.1.1
-- loosen momentjs dependecy ([#8](https://github.com/monterail/angular-mighty-datepicker/pull/8) by [@mrodrigues](https://github.com/mrodrigues)
+- loosen momentjs dependecy ([#8](https://github.com/monterail/angular-mighty-datepicker/pull/8)) by [@mrodrigues](https://github.com/mrodrigues)
 
 0.1.0
 - added explicit dependency ([#9](https://github.com/monterail/angular-mighty-datepicker/pull/9)) by [@Jaspur](https://github.com/Jaspur)
