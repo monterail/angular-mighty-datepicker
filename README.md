@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.1.2
+- fix package.json format
+
 0.1.1
 - loosen momentjs dependecy ([#8](https://github.com/monterail/angular-mighty-datepicker/pull/8)) by [@mrodrigues](https://github.com/mrodrigues)
 
