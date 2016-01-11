@@ -1,6 +1,6 @@
 {
-  "name": "angular-mighty-datepicker-strict",
-  "version": "0.0.19",
+  "name": "angular-mighty-datepicker",
+  "version": "0.1.1",
   "authors": [
     "Krzysztof Jung <krzysztof.jung@monterail.com>",
     "Patryk Peas <patryk.peas@monterail.com>",
@@ -9,10 +9,7 @@
   ],
   "repository": "git://github.com/dzincolorado/angular-mighty-datepicker-strict.git",
   "description": "Angular based datepicker with mighty options",
-  "main": [
-    "build/angular-mighty-datepicker.js",
-    "build/angular-mighty-datepicker.css"
-  ],
+  "main": "build/angular-mighty-datepicker.js",
   "devDependencies": {
     "beepbeep": "^1.2.0",
     "gulp": "~3.8.10",

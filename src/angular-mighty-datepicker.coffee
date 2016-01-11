@@ -1,6 +1,6 @@
-angular.module "mightyDatepicker", ['pasvaz.bindonce']
+angular.module "mightyDatepicker", ["pasvaz.bindonce"]
 
-angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($compile) ->
+angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($compile) ->
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
       <button type="button" class="mighty-picker__prev-month"
@@ -23,6 +23,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
                   "mighty-picker-calendar__day": day,
                   "mighty-picker-calendar__day--selected": day.selected,
                   "mighty-picker-calendar__day--disabled": day.disabled,
+                  "mighty-picker-calendar__day--in-range": day.inRange,
                   "mighty-picker-calendar__day--marked": day.marker
                 }'
                 ng-repeat="day in week track by $index" ng-click="select(day)">
@@ -61,6 +62,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
     markers: '='
     after: '='
     before: '='
+    rangeFrom: '='
+    rangeTo: '='
 
   link: ($scope, $element, $attrs) ->
     _bake = ->
@@ -95,6 +98,15 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
         else
           return $scope.model && day.isSame($scope.model, 'day')
 
+    _isInRange = (day) ->
+      if $scope.options.rangeMode
+        if $scope.options.rangeMode == "from"
+          return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day')
+        else
+          return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day')
+      else
+        return false
+
     _buildWeek = (time, month) ->
       days = []
       filter = true
@@ -106,6 +118,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
         filter = $scope.options.filter(day) if $scope.options.filter
         date: day
         selected: _isSelected(day) && withinMonth
+        inRange: _isInRange(day)
         disabled: !(withinLimits && withinMonth && filter)
         marker: _getMarker(day) if withinMonth
       days
@@ -114,10 +127,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
       weeks = []
       calendarStart = moment(time).startOf('month')
       calendarEnd = moment(time).endOf('month')
-      weeksInMonth = calendarEnd.week() - calendarStart.week()
-      if weeksInMonth < 0 # year edge
-        weeksInMonth =
-          (calendarStart.weeksInYear()-calendarStart.week())+calendarEnd.week()
+      weeksInMonth = 5
       start = time.startOf('month')
       weeks =(
         _buildWeek(moment(start).add('weeks', w), moment(start).month()
@@ -152,6 +162,11 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ['$compile', ($
 
       $scope.options.start =
         $scope.options.start || start || moment().startOf('day')
+
+      if $scope.rangeFrom
+        $scope.options.rangeMode = "from"
+      else if $scope.rangeTo
+        $scope.options.rangeMode = "to"
 
       _indexMarkers()
       $scope.options.template = $scope.options.template.replace('ng-bind-template=""',

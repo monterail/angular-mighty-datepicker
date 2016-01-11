@@ -1,6 +1,7 @@
 {
-  "name": "angular-mighty-datepicker-strict",
-  "version": "0.0.19",
+
+  "name": "angular-mighty-datepicker",
+  "version": "0.1.1",
   "authors": [
     "Krzysztof Jung <krzysztof.jung@monterail.com>",
     "Patryk Peas <patryk.peas@monterail.com>",
@@ -16,7 +17,7 @@
   "dependencies": {
     "angular": ">= 1.2",
     "angular-bindonce": "*",
-    "moment": "~2.6.0",
+    "moment": ">= 2.6.0",
     "moment-range": "~1.0.1"
   },
   "license": "MIT",

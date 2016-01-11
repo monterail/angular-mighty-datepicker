@@ -28,7 +28,7 @@ gulp.task("build", ["coffee", "less"])
 
 gulp.task("server", ["build", "watch"], function() {
   connect.server({
-    root: './test',
+    root: '.',
     port: 8000
   });
 });
