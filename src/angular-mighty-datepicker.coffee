@@ -111,7 +111,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       days = []
       filter = true
       start = time.startOf('week')
-      days = [0 .. 6].map (d) ->
+      startWeek = $scope.options.startWeek || 0
+      days = [startWeek .. startWeek + 6].map (d) ->
         day = moment(start).add('days', d)
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)

@@ -87,12 +87,28 @@
                 return $scope.model && day.isSame($scope.model, 'day');
             }
           };
+          _isInRange = function(day) {
+            if ($scope.options.rangeMode) {
+              if ($scope.options.rangeMode === "from") {
+                return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day');
+              } else {
+                return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day');
+              }
+            } else {
+              return false;
+            }
+          };
           _buildWeek = function(time, month) {
-            var days, filter, start;
+            var days, filter, start, startWeek, _i, _ref, _results;
             days = [];
             filter = true;
             start = time.startOf('week');
-            days = [0, 1, 2, 3, 4, 5, 6].map(function(d) {
+            startWeek = $scope.options.startWeek || 0;
+            days = (function() {
+              _results = [];
+              for (var _i = startWeek, _ref = startWeek + 6; startWeek <= _ref ? _i <= _ref : _i >= _ref; startWeek <= _ref ? _i++ : _i--){ _results.push(_i); }
+              return _results;
+            }).apply(this).map(function(d) {
               var day, withinLimits, withinMonth;
               day = moment(start).add('days', d);
               withinMonth = day.month() === month;
@@ -103,6 +119,7 @@
               return {
                 date: day,
                 selected: _isSelected(day) && withinMonth,
+                inRange: _isInRange(day),
                 disabled: !(withinLimits && withinMonth && filter),
                 marker: withinMonth ? _getMarker(day) : void 0
               };
