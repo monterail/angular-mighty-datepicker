@@ -41,7 +41,7 @@
       $scope.date = null;
       $scope.multi = [moment(), moment().add('day', 2), moment().add('day', 5)];
       $scope.mark = moment();
-      $scope.options = {months: 1, after: moment(), startWeek: 1, template: template};
+      $scope.options = {months: 1, after: moment(), useIsoWeek: true, template: template};
       $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", callback: _callthis, filter: _filter};
       $scope.optionsMAfter = moment().add('month', -1);
       $scope.optionsK = {months: 1};

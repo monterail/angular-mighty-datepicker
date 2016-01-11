@@ -99,16 +99,12 @@
             }
           };
           _buildWeek = function(time, month) {
-            var days, filter, start, startWeek, _i, _ref, _results;
+            var days, filter, start, weekType;
             days = [];
             filter = true;
-            start = time.startOf('week');
-            startWeek = $scope.options.startWeek || 0;
-            days = (function() {
-              _results = [];
-              for (var _i = startWeek, _ref = startWeek + 6; startWeek <= _ref ? _i <= _ref : _i >= _ref; startWeek <= _ref ? _i++ : _i--){ _results.push(_i); }
-              return _results;
-            }).apply(this).map(function(d) {
+            weekType = $scope.options.useIsoWeek === true ? 'isoWeek' : 'week';
+            start = time.startOf(weekType);
+            days = [0, 1, 2, 3, 4, 5, 6].map(function(d) {
               var day, withinLimits, withinMonth;
               day = moment(start).add('days', d);
               withinMonth = day.month() === month;
@@ -127,16 +123,13 @@
             return days;
           };
           _buildMonth = function(time) {
-            var calendarEnd, calendarStart, start, w, weeks, weeksInMonth;
+            var start, w, weeks;
             weeks = [];
-            calendarStart = moment(time).startOf('month');
-            calendarEnd = moment(time).endOf('month');
-            weeksInMonth = 5;
             start = time.startOf('month');
             weeks = (function() {
               var _i, _results;
               _results = [];
-              for (w = _i = 0; 0 <= weeksInMonth ? _i <= weeksInMonth : _i >= weeksInMonth; w = 0 <= weeksInMonth ? ++_i : --_i) {
+              for (w = _i = 0; _i <= 5; w = ++_i) {
                 _results.push(_buildWeek(moment(start).add('weeks', w), moment(start).month()));
               }
               return _results;

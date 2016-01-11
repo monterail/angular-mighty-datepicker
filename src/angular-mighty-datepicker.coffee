@@ -110,9 +110,9 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     _buildWeek = (time, month) ->
       days = []
       filter = true
-      start = time.startOf('week')
-      startWeek = $scope.options.startWeek || 0
-      days = [startWeek .. startWeek + 6].map (d) ->
+      weekType = if $scope.options.useIsoWeek is true then 'isoWeek' else 'week'
+      start = time.startOf(weekType)
+      days = [0 .. 6].map (d) ->
         day = moment(start).add('days', d)
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
@@ -126,13 +126,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
 
     _buildMonth = (time) ->
       weeks = []
-      calendarStart = moment(time).startOf('month')
-      calendarEnd = moment(time).endOf('month')
-      weeksInMonth = 5
       start = time.startOf('month')
       weeks =(
         _buildWeek(moment(start).add('weeks', w), moment(start).month()
-        ) for w in [0 .. weeksInMonth])
+        ) for w in [0 .. 5])
       weeks: weeks
       name: time.format("MMMM YYYY")
 
