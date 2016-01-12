@@ -17,7 +17,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
               bo-text="day.date.format('dd')">
             </th>
           </tr>
-          <tr bindonce ng-repeat="week in month.weeks">
+          <tr
+              bindonce ng-repeat="week in month.weeks"
+              bo-class='{"mighty-picker-calendar__week--selected": week.hasSelection}'
+              >
             <td
                 bo-class='{
                   "mighty-picker-calendar__day": day,
@@ -122,6 +125,13 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
         inRange: _isInRange(day)
         disabled: !(withinLimits && withinMonth && filter)
         marker: _getMarker(day) if withinMonth
+
+      days.hasSelection = false
+      for day in days
+        if day.selected == true
+          days.hasSelection = true
+          break
+
       days
 
     _buildMonth = (time) ->
