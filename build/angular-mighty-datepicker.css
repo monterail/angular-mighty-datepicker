@@ -33,6 +33,10 @@
   color: #3b5;
   font-weight: bold;
 }
+.mighty-picker-calendar__day--selected-to {
+  color: orange;
+  font-weight: bold;
+}
 .mighty-picker__month {
   display: inline-block;
   margin: 0 6px;

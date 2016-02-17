@@ -15,7 +15,7 @@ var warn = function(err) { console.warn(err); };
 var paths = {
   src: "./src/",
   dst: "./build/"
-}
+};
 
 var onError = function (err) {
   gutil.beep();
@@ -24,7 +24,7 @@ var onError = function (err) {
 
 gulp.task("default", ["bower", "build"]);
 
-gulp.task("build", ["coffee", "less"])
+gulp.task("build", ["coffee", "less"]);
 
 gulp.task("server", ["build", "watch"], function() {
   connect.server({
@@ -36,7 +36,7 @@ gulp.task("server", ["build", "watch"], function() {
 gulp.task("clean", function(){
   return gulp.src(paths.dst, {read: false})
     .pipe(clean());
-})
+});
 
 gulp.task("watch", function(){
   return gulp.watch(paths.src + "**/*", ["build"]);
