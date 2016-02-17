@@ -257,7 +257,7 @@
                   if ((startValid && endValid) || (!startValid && !endValid)) {
                     $scope.model = moment.range(moment(day.date), moment(null));
                   } else if (startValid && !endValid) {
-                    if (moment(day.date).isSameOrBefore($scope.model.end, 'day')) {
+                    if (moment(day.date).isSameOrBefore($scope.model.start, 'day')) {
                       $scope.model.start = moment(day.date);
                     } else {
                       $scope.model.end = moment(day.date);
