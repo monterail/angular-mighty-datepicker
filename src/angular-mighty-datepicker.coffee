@@ -242,7 +242,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
               # push back the start date if the selected day is before
               if moment(day.date).isBefore($scope.model.start, 'day') ||
                 moment(day.date).isSame($scope.model.start, 'day')
-                $scope.model.start = moment(day.date)
+                  $scope.model.start = moment(day.date)
               else
                 $scope.model.end = moment(day.date)
 
