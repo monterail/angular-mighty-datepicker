@@ -19,7 +19,7 @@
     "angular": ">= 1.2",
     "angular-bindonce": "*",
     "moment": ">= 2.6.0",
-    "moment-range": "1.0.7"
+    "moment-range": "2.2.0"
   },
   "license": "MIT",
   "homepage": "http://github.com/monterail/angular-mighty-datepicker"
