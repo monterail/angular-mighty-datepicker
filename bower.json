@@ -14,11 +14,12 @@
     "build/angular-mighty-datepicker.js",
     "build/angular-mighty-datepicker.css"
   ],
+  "ignore": [],
   "dependencies": {
     "angular": ">= 1.2",
     "angular-bindonce": "*",
     "moment": ">= 2.6.0",
-    "moment-range": "~1.0.1"
+    "moment-range": "1.0.7"
   },
   "license": "MIT",
   "homepage": "http://github.com/monterail/angular-mighty-datepicker"
