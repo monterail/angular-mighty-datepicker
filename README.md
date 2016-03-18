@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.1.2
+- replaced deprecated momentjs function ([#26](https://github.com/monterail/angular-mighty-datepicker/pull/26)) by [@Jaspur](https://github.com/Jaspur)
+
 0.1.1
 - loosen momentjs dependecy ([#8](https://github.com/monterail/angular-mighty-datepicker/pull/8)) by [@mrodrigues](https://github.com/mrodrigues)
 
