@@ -112,7 +112,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       filter = true
       start = time.startOf('week')
       days = [0 .. 6].map (d) ->
-        day = moment(start).add('days', d)
+        day = moment(start).add(d, 'days')
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
         filter = $scope.options.filter(day) if $scope.options.filter
@@ -130,7 +130,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       weeksInMonth = 5
       start = time.startOf('month')
       weeks =(
-        _buildWeek(moment(start).add('weeks', w), moment(start).month()
+        _buildWeek(moment(start).add(w, 'weeks'), moment(start).month()
         ) for w in [0 .. weeksInMonth])
       weeks: weeks
       name: time.format("MMMM YYYY")
@@ -175,7 +175,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     _prepare = ->
       $scope.months = []
       $scope.months = (
-        _buildMonth(moment($scope.options.start).add('months', m)
+        _buildMonth(moment($scope.options.start).add(m, 'months')
         ) for m in [0 ... $scope.options.months])
 
     _build = ->
@@ -183,7 +183,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       _bake()
 
     $scope.moveMonth = (step) ->
-      $scope.options.start.add('month', step)
+      $scope.options.start.add(step, 'month')
       _prepare()
       return
 

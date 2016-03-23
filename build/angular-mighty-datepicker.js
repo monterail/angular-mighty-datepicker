@@ -105,7 +105,7 @@
             start = time.startOf('week');
             days = [0, 1, 2, 3, 4, 5, 6].map(function(d) {
               var day, withinLimits, withinMonth;
-              day = moment(start).add('days', d);
+              day = moment(start).add(d, 'days');
               withinMonth = day.month() === month;
               withinLimits = _withinLimits(day, month);
               if ($scope.options.filter) {
@@ -132,7 +132,7 @@
               var _i, _results;
               _results = [];
               for (w = _i = 0; 0 <= weeksInMonth ? _i <= weeksInMonth : _i >= weeksInMonth; w = 0 <= weeksInMonth ? ++_i : --_i) {
-                _results.push(_buildWeek(moment(start).add('weeks', w), moment(start).month()));
+                _results.push(_buildWeek(moment(start).add(w, 'weeks'), moment(start).month()));
               }
               return _results;
             })();
@@ -190,7 +190,7 @@
               var _i, _ref, _results;
               _results = [];
               for (m = _i = 0, _ref = $scope.options.months; 0 <= _ref ? _i < _ref : _i > _ref; m = 0 <= _ref ? ++_i : --_i) {
-                _results.push(_buildMonth(moment($scope.options.start).add('months', m)));
+                _results.push(_buildMonth(moment($scope.options.start).add(m, 'months')));
               }
               return _results;
             })();
@@ -200,7 +200,7 @@
             return _bake();
           };
           $scope.moveMonth = function(step) {
-            $scope.options.start.add('month', step);
+            $scope.options.start.add(step, 'month');
             _prepare();
           };
           $scope.select = function(day) {
