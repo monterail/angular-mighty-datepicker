@@ -22,7 +22,7 @@
           marker: "tutoti"
         },
         {
-          day: moment().add('day', 2),
+          day: moment().add(2, 'day'),
           marker: "tutotite"
         }
       ]
@@ -39,11 +39,11 @@ _filter = function (day) {
       var template = "<div class=\"mighty-picker__wrapperxx\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div style=\"font-style: italic;\" class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\" ng-click=\"moveMonth(1)\">>></button>\n</div>";
 
       $scope.date = null;
-      $scope.multi = [moment(), moment().add('day', 2), moment().add('day', 5)];
+      $scope.multi = [moment(), moment().add(2, 'day'), moment().add(5, 'day')];
       $scope.mark = moment();
       $scope.options = {months: 1, after: moment(), template: template};
-      $scope.optionsM = {start: moment().add('month', -1), months: 3, mode: "multiple", callback: _callthis, filter: _filter};
-      $scope.optionsMAfter = moment().add('month', -1);
+      $scope.optionsM = {start: moment().add(-1, 'month'), months: 3, mode: "multiple", callback: _callthis, filter: _filter};
+      $scope.optionsMAfter = moment().add(-1, 'month');
       $scope.optionsK = {months: 1};
 
       $scope.dateSt = moment();
@@ -101,7 +101,7 @@ _filter = function (day) {
     <section>
       <div>
         <h3>JS</h3>
-        <script src="https://gist.github.com/hodak/028a87e93f768f7a7b41.js"></script>
+        <script src="https://gist.github.com/Belir/7141e7a7b878f5018fa1.js"></script>
         <h3>HTML</h3>
         <script src="https://gist.github.com/hodak/ee65580bc35dbad6196f.js"></script>
         <h3>Attributes</h3>
@@ -150,7 +150,7 @@ _filter = function (day) {
           <mighty-datepicker ng-model="multi" options="optionsM"></mighty-datepicker>
           <code>ng-repeat="day in multi"</code>
           <pre ng-repeat="day in multi">{{ day | json}}</pre>
-          <script src="https://gist.github.com/hodak/c98111505f2cff9dfd05.js"></script>
+          <script src="https://gist.github.com/Belir/6e7421bc7fc1f63a38f0.js"></script>
         </div>
 
         <hr>
@@ -160,7 +160,7 @@ _filter = function (day) {
           <mighty-datepicker ng-model="mark" options="optionsK" markers="markers"></mighty-datepicker>
           <button ng-click="addMarker()">Add marker on selected day</button>
           <br>
-          <script src="https://gist.github.com/hodak/8bfe4d78c9ce4319c485.js"></script>
+          <script src="https://gist.github.com/Belir/bd9503144dd7fbb278a9.js"></script>
         </div>
 
         <hr>
