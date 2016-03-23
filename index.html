@@ -27,14 +27,14 @@
         }
       ]
 
-_callthis = function(day) {
-  console.log("call this: ", day);
-}
+      _callthis = function(day) {
+        console.log("call this: ", day);
+      }
 
-_filter = function (day) {
-  w = day.weekday();
-  return w < 6 && w > 0;
-}
+      _filter = function (day) {
+        w = day.weekday();
+        return w < 6 && w > 0;
+      }
 
       var template = "<div class=\"mighty-picker__wrapperxx\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\"><<</button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div style=\"font-style: italic;\" class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\" ng-click=\"moveMonth(1)\">>></button>\n</div>";
 
@@ -111,6 +111,8 @@ _filter = function (day) {
           <li><code>markers</code>: array of markers, containing additional data for certain days, marker is object: {day: momentObject, marker: markerObject}</li>
           <li><code>after</code>: days after this date are enabled to select</li>
           <li><code>before</code>: days before this date are enabled to select</li>
+          <li><code>range-from</code>: enables highlighting days selected from picked date</li>
+          <li><code>range-to</code>: enables highlighting days selected to picked date</li>
         </ul>
         <h3>Options</h3>
         <ul>
@@ -177,13 +179,13 @@ _filter = function (day) {
 
         <div>
           <h2>Double datepicker for date range</h2>
-          <mighty-datepicker ng-model="dateDbA" options="optionsDbA" before="dateDbB" style="display: inline-block"></mighty-datepicker>
-          <mighty-datepicker ng-model="dateDbB" options="optionsDbB" after="dateDbA" style="display: inline-block"></mighty-datepicker>
+          <mighty-datepicker ng-model="dateDbA" options="optionsDbA" range-from="true" before="dateDbB" style="display: inline-block"></mighty-datepicker>
+          <mighty-datepicker ng-model="dateDbB" options="optionsDbB" range-to="true" after="dateDbA" style="display: inline-block"></mighty-datepicker>
           <pre>$scope.dateDbA
 => {{ dateDbA }}
 $scope.dateDbB
 => {{ dateDbB }}</pre>
-          <script src="https://gist.github.com/hodak/67765b9efc84f5bdc209.js"></script>
+          <script src="https://gist.github.com/Belir/aa328c3c27db11f5b357.js"></script>
         </div>
       </div>
     </section>
