@@ -63,10 +63,10 @@
             var withinLimits;
             withinLimits = true;
             if ($scope.before) {
-              withinLimits && (withinLimits = day.isBefore($scope.before));
+              withinLimits && (withinLimits = day.isSameOrBefore($scope.before, 'day'));
             }
             if ($scope.after) {
-              withinLimits && (withinLimits = day.isAfter($scope.after));
+              withinLimits && (withinLimits = day.isSameOrAfter($scope.after, 'day'));
             }
             return withinLimits;
           };
