@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.1.4
+- fix problem with selecting 1 day in range picker
+
 0.1.3
 - replaced deprecated momentjs function ([#26](https://github.com/monterail/angular-mighty-datepicker/pull/26)) by [@Jaspur](https://github.com/Jaspur)
 
