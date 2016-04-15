@@ -22,6 +22,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
                 bo-class='{
                   "mighty-picker-calendar__day": day,
                   "mighty-picker-calendar__day--selected": day.selected,
+                  "mighty-picker-calendar__day--selected-to": day.selectedTo,
                   "mighty-picker-calendar__day--disabled": day.disabled,
                   "mighty-picker-calendar__day--in-range": day.inRange,
                   "mighty-picker-calendar__day--marked": day.marker
@@ -95,17 +96,37 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       switch $scope.options.mode
         when "multiple"
           return _indexOfMoment($scope.model, day, 'day') > -1
+        when "range"
+          if $scope.model
+            return day.isSame($scope.model.start, 'day')
         else
           return $scope.model && day.isSame($scope.model, 'day')
 
-    _isInRange = (day) ->
-      if $scope.options.rangeMode
-        if $scope.options.rangeMode == "from"
-          return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day')
+    _isSelectedTo = (day) ->
+      switch $scope.options.mode
+        when "range"
+          if $scope.model
+            return day.isSame($scope.model.end, 'day')
         else
-          return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day')
-      else
-        return false
+          return false
+
+    _isInRange = (day) ->
+      switch $scope.options.mode
+        when "multiple"
+          if $scope.options.rangeMode
+            if $scope.options.rangeMode == "from"
+              return moment.range($scope.model, $scope.before).contains(day) ||
+                  day.isSame($scope.before, 'day')
+            else
+              return moment.range($scope.after, $scope.model).contains(day) ||
+                  day.isSame($scope.after, 'day')
+          else
+            return false
+        when "range"
+          if $scope.model.start
+            return $scope.model.contains(day)
+          else
+            return false
 
     _buildWeek = (time, month) ->
       days = []
@@ -118,6 +139,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
         filter = $scope.options.filter(day) if $scope.options.filter
         date: day
         selected: _isSelected(day) && withinMonth
+        selectedTo: _isSelectedTo(day) && withinMonth
         inRange: _isInRange(day)
         disabled: !(withinLimits && withinMonth && filter)
         marker: _getMarker(day) if withinMonth
@@ -157,6 +179,14 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
               start = moment(dates.sort().slice(-1)[0])
           else
             $scope.model = []
+
+        when "range"
+          if $scope.model && $scope.model.start
+            if $scope.model.start.isValid()
+              start = $scope.model.start
+          else
+            $scope.model = moment.range()
+
         else
           start = moment($scope.model) if $scope.model
 
@@ -196,6 +226,26 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
               $scope.model.splice(ix, 1)
             else
               $scope.model.push(moment(day.date))
+
+          when "range"
+            startValid = $scope.model.start.isValid()
+            endValid = $scope.model.end.isValid()
+
+            # if the start date and end date are both valid or invalid
+            # reset the dates.
+            if (startValid && endValid) || (!startValid && !endValid)
+              $scope.model = moment.range(moment(day.date), moment(null))
+
+            # if the end date is invalid
+            # set the end date.
+            else if startValid && !endValid
+              # push back the start date if the selected day is before
+              if moment(day.date).isBefore($scope.model.start, 'day') ||
+                moment(day.date).isSame($scope.model.start, 'day')
+                  $scope.model.start = moment(day.date)
+              else
+                $scope.model.end = moment(day.date)
+
           else
             $scope.model = day.date
         $scope.options.callback day.date if $scope.options.callback
@@ -211,6 +261,10 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     switch $scope.options.mode
       when "multiple"
         $scope.$watchCollection 'model', (newVals, oldVals) ->
+          _prepare()
+
+      when "range"
+        $scope.$watch 'model', (newVal, oldVal) ->
           _prepare()
 
       when "simple"

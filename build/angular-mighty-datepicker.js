@@ -4,7 +4,7 @@
   angular.module("mightyDatepicker").directive("mightyDatepicker", [
     "$compile", function($compile) {
       var options, pickerTemplate;
-      pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\"\n    ng-click=\"moveMonth(-1)\">\n    <<\n  </button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--in-range\": day.inRange,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\"\n    ng-click=\"moveMonth(1)\">\n    >>\n  </button>\n</div>";
+      pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\"\n    ng-click=\"moveMonth(-1)\">\n    <<\n  </button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--selected-to\": day.selectedTo,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--in-range\": day.inRange,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\"\n    ng-click=\"moveMonth(1)\">\n    >>\n  </button>\n</div>";
       options = {
         mode: "simple",
         months: 1,
@@ -28,7 +28,7 @@
           rangeTo: '='
         },
         link: function($scope, $element, $attrs) {
-          var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isInRange, _isSelected, _prepare, _setup, _withinLimits;
+          var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isInRange, _isSelected, _isSelectedTo, _prepare, _setup, _withinLimits;
           _bake = function() {
             var domEl;
             domEl = $compile(angular.element($scope.options.template))($scope);
@@ -83,19 +83,45 @@
             switch ($scope.options.mode) {
               case "multiple":
                 return _indexOfMoment($scope.model, day, 'day') > -1;
+              case "range":
+                if ($scope.model) {
+                  return day.isSame($scope.model.start, 'day');
+                }
+                break;
               default:
                 return $scope.model && day.isSame($scope.model, 'day');
             }
           };
+          _isSelectedTo = function(day) {
+            switch ($scope.options.mode) {
+              case "range":
+                if ($scope.model) {
+                  return day.isSame($scope.model.end, 'day');
+                }
+                break;
+              default:
+                return false;
+            }
+          };
           _isInRange = function(day) {
-            if ($scope.options.rangeMode) {
-              if ($scope.options.rangeMode === "from") {
-                return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day');
-              } else {
-                return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day');
-              }
-            } else {
-              return false;
+            switch ($scope.options.mode) {
+              case "multiple":
+                if ($scope.options.rangeMode) {
+                  if ($scope.options.rangeMode === "from") {
+                    return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day');
+                  } else {
+                    return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day');
+                  }
+                } else {
+                  return false;
+                }
+                break;
+              case "range":
+                if ($scope.model.start) {
+                  return $scope.model.contains(day);
+                } else {
+                  return false;
+                }
             }
           };
           _buildWeek = function(time, month) {
@@ -114,6 +140,7 @@
               return {
                 date: day,
                 selected: _isSelected(day) && withinMonth,
+                selectedTo: _isSelectedTo(day) && withinMonth,
                 inRange: _isInRange(day),
                 disabled: !(withinLimits && withinMonth && filter),
                 marker: withinMonth ? _getMarker(day) : void 0
@@ -169,6 +196,15 @@
                   $scope.model = [];
                 }
                 break;
+              case "range":
+                if ($scope.model && $scope.model.start) {
+                  if ($scope.model.start.isValid()) {
+                    start = $scope.model.start;
+                  }
+                } else {
+                  $scope.model = moment.range();
+                }
+                break;
               default:
                 if ($scope.model) {
                   start = moment($scope.model);
@@ -204,7 +240,7 @@
             _prepare();
           };
           $scope.select = function(day) {
-            var ix;
+            var endValid, ix, startValid;
             if (!day.disabled) {
               switch ($scope.options.mode) {
                 case "multiple":
@@ -213,6 +249,19 @@
                     $scope.model.splice(ix, 1);
                   } else {
                     $scope.model.push(moment(day.date));
+                  }
+                  break;
+                case "range":
+                  startValid = $scope.model.start.isValid();
+                  endValid = $scope.model.end.isValid();
+                  if ((startValid && endValid) || (!startValid && !endValid)) {
+                    $scope.model = moment.range(moment(day.date), moment(null));
+                  } else if (startValid && !endValid) {
+                    if (moment(day.date).isBefore($scope.model.start, 'day') || moment(day.date).isSame($scope.model.start, 'day')) {
+                      $scope.model.start = moment(day.date);
+                    } else {
+                      $scope.model.end = moment(day.date);
+                    }
                   }
                   break;
                 default:
@@ -233,6 +282,11 @@
           switch ($scope.options.mode) {
             case "multiple":
               $scope.$watchCollection('model', function(newVals, oldVals) {
+                return _prepare();
+              });
+              break;
+            case "range":
+              $scope.$watch('model', function(newVal, oldVal) {
                 return _prepare();
               });
               break;
