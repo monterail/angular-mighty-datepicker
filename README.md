@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.1.6
+- corrected broadcast event handling to reload calendar
+
 0.1.5
 - added broadcast event handling to reload calendar
 
