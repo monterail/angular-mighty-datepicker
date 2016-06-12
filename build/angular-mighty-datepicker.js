@@ -156,7 +156,7 @@
             }
           }
           $scope.options = tempOptions;
-          $scope.$on('mighty-datepicker-reload')(function() {
+          $scope.$on('mighty-datepicker-reload', function() {
             return _prepare();
           });
           switch ($scope.options.mode) {
