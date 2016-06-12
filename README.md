@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+0.1.5
+- added broadcast event handling to reload calendar
+
 0.1.4
 - fix problem with selecting 1 day in range picker
 
