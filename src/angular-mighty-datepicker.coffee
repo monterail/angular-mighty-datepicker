@@ -149,6 +149,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
 
       $scope.options = tempOptions
 
+      $scope.$on('mighty-datepicker-reload' -> _prepare();
+      
       switch $scope.options.mode
         when "multiple"
           # add start based on model
