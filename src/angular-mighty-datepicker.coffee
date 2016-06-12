@@ -196,7 +196,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker",
       _prepare()
       _bake()
 
-    $scope.on('mighty-datepicker-reload') -> _prepare()
+    $scope.on 'mighty-datepicker-reload', -> _prepare()
 
     $scope.moveMonth = (step) ->
       $scope.options.start.add(step, 'month')

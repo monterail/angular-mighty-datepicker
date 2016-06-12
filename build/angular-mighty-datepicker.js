@@ -202,7 +202,7 @@
           _prepare();
           return _bake();
         };
-        $scope.on('mighty-datepicker-reload')(function() {
+        $scope.on('mighty-datepicker-reload', function() {
           return _prepare();
         });
         $scope.moveMonth = function(step) {
