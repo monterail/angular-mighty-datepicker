@@ -6,7 +6,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker",
     <div class="mighty-picker__wrapper">
       <button type="button" class="mighty-picker__prev-month"
         ng-click="moveMonth(-1)">
-        <<
+        &#21E6;
       </button>
       <div class="mighty-picker__month"
         bindonce ng-repeat="month in months track by $index">
@@ -42,7 +42,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker",
       </div>
       <button type="button" class="mighty-picker__next-month"
         ng-click="moveMonth(1)">
-        >>
+        &#21E8;
       </button>
     </div>
   """

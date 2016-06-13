@@ -4,7 +4,7 @@
   angular.module("mightyDatepicker", ["pasvaz.bindonce"]);
 
   angular.module("mightyDatepicker").directive("mightyDatepicker", [
-    "$compile", function($compile) {}, pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\"\n    ng-click=\"moveMonth(-1)\">\n    <<\n  </button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--in-range\": day.inRange,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\"\n    ng-click=\"moveMonth(1)\">\n    >>\n  </button>\n</div>", options = {
+    "$compile", function($compile) {}, pickerTemplate = "<div class=\"mighty-picker__wrapper\">\n  <button type=\"button\" class=\"mighty-picker__prev-month\"\n    ng-click=\"moveMonth(-1)\">\n    &#21E6;\n  </button>\n  <div class=\"mighty-picker__month\"\n    bindonce ng-repeat=\"month in months track by $index\">\n    <div class=\"mighty-picker__month-name\" ng-bind=\"month.name\"></div>\n    <table class=\"mighty-picker-calendar\">\n      <tr class=\"mighty-picker-calendar__days\">\n        <th bindonce ng-repeat=\"day in month.weeks[1]\"\n          class=\"mighty-picker-calendar__weekday\"\n          bo-text=\"day.date.format('dd')\">\n        </th>\n      </tr>\n      <tr bindonce ng-repeat=\"week in month.weeks\">\n        <td\n            bo-class='{\n              \"mighty-picker-calendar__day\": day,\n              \"mighty-picker-calendar__day--selected\": day.selected,\n              \"mighty-picker-calendar__day--disabled\": day.disabled,\n              \"mighty-picker-calendar__day--in-range\": day.inRange,\n              \"mighty-picker-calendar__day--marked\": day.marker\n            }'\n            ng-repeat=\"day in week track by $index\" ng-click=\"select(day)\">\n            <div class=\"mighty-picker-calendar__day-wrapper\"\n              bo-text=\"day.date.date()\"></div>\n            <div class=\"mighty-picker-calendar__day-marker-wrapper\">\n              <div class=\"mighty-picker-calendar__day-marker\"\n                ng-if=\"day.marker\"\n                ng-bind-template=\"\">\n              </div>\n            </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n  <button type=\"button\" class=\"mighty-picker__next-month\"\n    ng-click=\"moveMonth(1)\">\n    &#21E8;\n  </button>\n</div>", options = {
       mode: "simple",
       months: 1,
       start: null,
@@ -46,14 +46,14 @@
         _indexMarkers = function() {
           var marker;
           return $scope.markerIndex = $scope.markers ? (function() {
-            var _i, _len, _ref, _results;
-            _ref = $scope.markers;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              marker = _ref[_i];
-              _results.push(marker.day);
+            var i, len, ref, results;
+            ref = $scope.markers;
+            results = [];
+            for (i = 0, len = ref.length; i < len; i++) {
+              marker = ref[i];
+              results.push(marker.day);
             }
-            return _results;
+            return results;
           })() : void 0;
         };
         _withinLimits = function(day, month) {
@@ -129,12 +129,12 @@
           weeksInMonth = 5;
           start = time.startOf('month');
           weeks = (function() {
-            var _i, _results;
-            _results = [];
-            for (w = _i = 0; 0 <= weeksInMonth ? _i <= weeksInMonth : _i >= weeksInMonth; w = 0 <= weeksInMonth ? ++_i : --_i) {
-              _results.push(_buildWeek(moment(start).add(w, 'weeks'), moment(start).month()));
+            var i, ref, results;
+            results = [];
+            for (w = i = 0, ref = weeksInMonth; 0 <= ref ? i <= ref : i >= ref; w = 0 <= ref ? ++i : --i) {
+              results.push(_buildWeek(moment(start).add(w, 'weeks'), moment(start).month()));
             }
-            return _results;
+            return results;
           })();
           return {
             weeks: weeks,
@@ -142,16 +142,16 @@
           };
         };
         _setup = function() {
-          var attr, dates, start, tempOptions, v, _ref;
+          var attr, dates, ref, start, tempOptions, v;
           tempOptions = {};
           for (attr in options) {
             v = options[attr];
             tempOptions[attr] = v;
           }
           if ($scope.options) {
-            _ref = $scope.options;
-            for (attr in _ref) {
-              v = _ref[attr];
+            ref = $scope.options;
+            for (attr in ref) {
+              v = ref[attr];
               tempOptions[attr] = $scope.options[attr];
             }
           }
@@ -190,12 +190,12 @@
           var m;
           $scope.months = [];
           return $scope.months = (function() {
-            var _i, _ref, _results;
-            _results = [];
-            for (m = _i = 0, _ref = $scope.options.months; 0 <= _ref ? _i < _ref : _i > _ref; m = 0 <= _ref ? ++_i : --_i) {
-              _results.push(_buildMonth(moment($scope.options.start).add(m, 'months')));
+            var i, ref, results;
+            results = [];
+            for (m = i = 0, ref = $scope.options.months; 0 <= ref ? i < ref : i > ref; m = 0 <= ref ? ++i : --i) {
+              results.push(_buildMonth(moment($scope.options.start).add(m, 'months')));
             }
-            return _results;
+            return results;
           })();
         };
         _build = function() {
