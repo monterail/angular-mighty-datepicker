@@ -108,7 +108,7 @@
             day = moment(start).add(d, 'days');
             withinMonth = day.month() === month;
             withinLimits = _withinLimits(day, month);
-            if ($scope.options.filter) {
+            if ($scope.options.filter && withinMonth) {
               filter = $scope.options.filter(day);
             }
             return {
