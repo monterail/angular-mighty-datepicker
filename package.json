@@ -9,7 +9,7 @@
   ],
   "repository": "git://github.com/monterail/angular-mighty-datepicker.git",
   "description": "Angular based datepicker with mighty options",
-  "main": "build/angular-mighty-datepicker.js",
+  "main": "src/angular-mighty-datepicker.js",
   "devDependencies": {
     "beepbeep": "^1.2.0",
     "gulp": "~3.8.10",
