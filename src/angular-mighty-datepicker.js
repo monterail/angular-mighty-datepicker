@@ -12,7 +12,7 @@
                         '<th ng-repeat="day in month.weeks[1]" class="mighty-picker-calendar__weekday" ng-bind="::day.date.format(\'dd\')"></th>',
                     '</tr>',
                     '<tr ng-repeat="week in month.weeks">',
-                        '<td ng-class=\'{ "mighty-picker-calendar__day": day, "mighty-picker-calendar__day--selected": day.selected, "mighty-picker-calendar__day--disabled": day.disabled, "mighty-picker-calendar__day--in-range": day.inRange, "mighty-picker-calendar__day--marked": day.marker }\' ng-repeat="day in week track by $index" ng-click="select(day)">',
+                        '<td ng-class=\'{ "mighty-picker-calendar__day": day, "mighty-picker-calendar__day--selected": day.selected, "mighty-picker-calendar__day--disabled": day.disabled, "mighty-picker-calendar__day--in-range": day.inRange, "mighty-picker-calendar__day--marked": day.marker }\' ng-repeat="day in week track by $index" ng-mousedown="select(day, $event)">',
                             '<div class="mighty-picker-calendar__day-wrapper" ng-bind="::day.date.date()"></div>',
                             '<div class="mighty-picker-calendar__day-marker-wrapper">',
                                 '<div class="mighty-picker-calendar__day-marker" ng-if="day.marker" ng-bind-template=""></div>',
@@ -33,7 +33,8 @@
             filter: undefined,
             callback: undefined,
             markerTemplate: '{{ day.marker }}',
-            template: pickerTemplate
+            template: pickerTemplate,
+            cancelClick: false
         };
 
         return {
@@ -237,7 +238,7 @@
                     _prepare();
                 };
 
-                $scope.select = function(day) {
+                $scope.select = function(day, $event) {
                     var ix;
                     if (!day.disabled) {
                         switch ($scope.options.mode) {
@@ -253,6 +254,9 @@
                                 $scope.model = day.date;
                         }
                         if ($scope.options.callback) {
+                            if ($scope.options.cancelClick) {
+                                $event.preventDefault();
+                            }
                             $scope.options.callback(day.date);
                         }
                         return _prepare();
