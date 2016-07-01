@@ -5,7 +5,6 @@
     .directive('mightyDatepicker', ['$compile', function($compile) {
         var pickerTemplate = [
         '<div class="mighty-picker__wrapper">',
-            '<button type="button" class="mighty-picker__prev-month" ng-click="moveMonth(-1)"><<</button>',
             '<div class="mighty-picker__month" ng-repeat="month in months track by $index">',
                 '<div class="mighty-picker__month-name">{{month.name}}</div>',
                 '<table class="mighty-picker-calendar">',
@@ -22,6 +21,7 @@
                     '</tr>',
                 '</table>',
             '</div>',
+            '<button type="button" class="mighty-picker__prev-month" ng-click="moveMonth(-1)"><<</button>',
             '<button type="button" class="mighty-picker__next-month" ng-click="moveMonth(1)">>></button>',
         '</div>'
         ].join('');
