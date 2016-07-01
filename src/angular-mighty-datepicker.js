@@ -4,7 +4,7 @@
     angular.module('mightyDatepicker', [])
     .directive('mightyDatepicker', ['$compile', function($compile) {
         var pickerTemplate = [
-        '<div class="mighty-picker__wrapper">',
+        '<div class="mighty-picker__wrapper" ng-mousedown="cancelClick($event)">',
             '<div class="mighty-picker__month" ng-repeat="month in months track by $index">',
                 '<div class="mighty-picker__month-name">{{month.name}}</div>',
                 '<table class="mighty-picker-calendar">',
@@ -21,8 +21,8 @@
                     '</tr>',
                 '</table>',
             '</div>',
-            '<button type="button" class="mighty-picker__prev-month" ng-click="moveMonth(-1)"><<</button>',
-            '<button type="button" class="mighty-picker__next-month" ng-click="moveMonth(1)">>></button>',
+            '<button type="button" class="mighty-picker__prev-month" ng-mousedown="moveMonth(-1, $event)"><<</button>',
+            '<button type="button" class="mighty-picker__next-month" ng-mousedown="moveMonth(1, $event)">>></button>',
         '</div>'
         ].join('');
 
@@ -233,8 +233,14 @@
                     return _bake();
                 };
 
-                $scope.moveMonth = function(step) {
+                $scope.moveMonth = function(step, $event) {
                     $scope.options.start.add(step, 'month');
+                    if ($scope.options.callback) {
+                        if ($scope.options.cancelClick) {
+                            $event.preventDefault();
+                        }
+                        $scope.options.callback($scope.model);
+                    }
                     _prepare();
                 };
 
@@ -260,6 +266,12 @@
                             $scope.options.callback(day.date);
                         }
                         return _prepare();
+                    }
+                };
+
+                $scope.cancelClick = function($event) {
+                    if ($scope.options.cancelClick) {
+                        $event.preventDefault();
                     }
                 };
 
