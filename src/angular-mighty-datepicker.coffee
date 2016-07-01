@@ -1,11 +1,12 @@
 angular.module "mightyDatepicker", ["pasvaz.bindonce"]
 
-angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($compile) ->
+angular.module("mightyDatepicker").directive "mightyDatepicker",
+  ["$compile", ($compile) ->
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
       <button type="button" class="mighty-picker__prev-month"
         ng-click="moveMonth(-1)">
-        <<
+        &#21E6;
       </button>
       <div class="mighty-picker__month"
         bindonce ng-repeat="month in months track by $index">
@@ -41,7 +42,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       </div>
       <button type="button" class="mighty-picker__next-month"
         ng-click="moveMonth(1)">
-        >>
+        &#21E8;
       </button>
     </div>
   """
@@ -53,6 +54,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     callback: undefined
     markerTemplate: "{{ day.marker }}"
     template: pickerTemplate
+    firstWeekDayIsMonday: 0
+    
   restrict: "AE"
   replace: true
   template: '<div class="mighty-picker__holder"></div>'
@@ -76,7 +79,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       -1
 
     _indexMarkers = ->
-      $scope.markerIndex = (marker.day for marker in $scope.markers) if $scope.markers
+      $scope.markerIndex =
+        (marker.day for marker in $scope.markers) if $scope.markers
 
     _withinLimits = (day, month) ->
       withinLimits = true
@@ -101,9 +105,13 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     _isInRange = (day) ->
       if $scope.options.rangeMode
         if $scope.options.rangeMode == "from"
-          return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day')
+          return
+          moment.range($scope.model, $scope.before).contains(day) ||
+          day.isSame($scope.before, 'day')
         else
-          return moment.range($scope.after, $scope.model).contains(day) || day.isSame($scope.after, 'day')
+          return
+          moment.range($scope.after, $scope.model).contains(day) ||
+          day.isSame($scope.after, 'day')
       else
         return false
 
@@ -111,11 +119,13 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
       days = []
       filter = true
       start = time.startOf('week')
-      days = [0 .. 6].map (d) ->
+      week = if $scope.options['firstWeekDayIsMonday']
+      then [1 .. 6] else [0 .. 6]
+      days = week.map (d) ->
         day = moment(start).add(d, 'days')
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
-        filter = $scope.options.filter(day) if $scope.options.filter
+        filter = $scope.options.filter(day) if $scope.options.filter && withinMonth
         date: day
         selected: _isSelected(day) && withinMonth
         inRange: _isInRange(day)
@@ -146,10 +156,13 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
 
       $scope.options = tempOptions
 
+      $scope.$on 'mighty-datepicker-reload', -> _prepare()
+      
       switch $scope.options.mode
         when "multiple"
           # add start based on model
-          if $scope.model && Array.isArray($scope.model) && $scope.model.length>0
+          if $scope.model && Array.isArray($scope.model) &&
+          $scope.model.length>0
             if $scope.model.length == 1
               start = moment($scope.model[0])
             else
@@ -169,7 +182,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
         $scope.options.rangeMode = "to"
 
       _indexMarkers()
-      $scope.options.template = $scope.options.template.replace('ng-bind-template=""',
+      $scope.options.template =
+      $scope.options.template.replace('ng-bind-template=""',
         'ng-bind-template="' + $scope.options.markerTemplate + '"')
 
     _prepare = ->
@@ -181,6 +195,8 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     _build = ->
       _prepare()
       _bake()
+
+    $scope.on 'mighty-datepicker-reload', -> _prepare()
 
     $scope.moveMonth = (step) ->
       $scope.options.start.add(step, 'month')

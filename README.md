@@ -5,6 +5,15 @@
 
 ## Changelog:
 
+0.1.7
+- changed default arrows in default template to use html entities
+
+0.1.6
+- corrected broadcast event handling to reload calendar
+
+0.1.5
+- added broadcast event handling to reload calendar
+
 0.1.4
 - fix problem with selecting 1 day in range picker
 

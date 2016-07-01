@@ -1,10 +1,12 @@
 .mighty-picker-calendar__day {
   cursor: pointer;
   position: relative;
-  color: #333;
+  color: #050505; /* almost black */
 }
 .mighty-picker-calendar__day--disabled {
-  color: #aaa;
+  color: #ffc3bb;
+  /* very light red */
+  font-style: italic;
   cursor: auto;
 }
 .mighty-picker-calendar__day--in-range {
