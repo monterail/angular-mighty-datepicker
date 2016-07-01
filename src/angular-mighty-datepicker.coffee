@@ -125,7 +125,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker",
         day = moment(start).add(d, 'days')
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
-        filter = $scope.options.filter(day) if $scope.options.filter
+        filter = $scope.options.filter(day) if $scope.options.filter && withinMonth
         date: day
         selected: _isSelected(day) && withinMonth
         inRange: _isInRange(day)
