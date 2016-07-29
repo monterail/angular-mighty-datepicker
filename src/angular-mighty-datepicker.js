@@ -21,8 +21,8 @@
                     '</tr>',
                 '</table>',
             '</div>',
-            '<button type="button" class="mighty-picker__prev-month" ng-mousedown="moveMonth(-1, $event)"><<</button>',
-            '<button type="button" class="mighty-picker__next-month" ng-mousedown="moveMonth(1, $event)">>></button>',
+            '<button type="button" class="mighty-picker__prev-month" ng-mousedown="moveMonth(-1, $event)"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" xml:space="preserve" class="icon icon-arrow-left" viewBox="0 0 24 24"><title>Arrow Left</title><path d="M17.8,24a0.6,0.6,0,0,0,.6-0.7,0.5,0.5,0,0,0-.2-0.4L7.3,12,18.2,1.1A0.6,0.6,0,0,0,18.1.2a0.8,0.8,0,0,0-.9,0L5.9,11.5a0.6,0.6,0,0,0,0,.9L17.3,23.8a0.5,0.5,0,0,0,.5.2h0Z" style="fill:#231f20"/></svg></button>',
+            '<button type="button" class="mighty-picker__next-month" ng-mousedown="moveMonth(1, $event)"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" xml:space="preserve" class="icon icon-arrow-right" viewBox="0 0 24 24"><title>Arrow Right</title><path d="M6.3,24a0.6,0.6,0,0,1-.6-0.7,0.5,0.5,0,0,1,.2-0.4L16.7,12,5.8,1.1A0.6,0.6,0,0,1,5.9.2a0.8,0.8,0,0,1,.9,0L18.1,11.5a0.6,0.6,0,0,1,0,.9L6.8,23.8a0.6,0.6,0,0,1-.5.2h0Z" style="fill:#231f20"/></svg></button>',
         '</div>'
         ].join('');
 
