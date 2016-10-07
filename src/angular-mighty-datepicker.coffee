@@ -6,18 +6,18 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
         <<
       </button>
       <div class="mighty-picker__month"
-        ng-repeat="month in ::months track by $index">
+        ng-repeat="month in months track by $index">
         <div class="mighty-picker__month-name" ng-bind="month.name"></div>
         <table class="mighty-picker-calendar">
           <tr class="mighty-picker-calendar__days">
-            <th ng-repeat="day in ::month.weeks[1]"
+            <th ng-repeat="day in month.weeks[1]"
               class="mighty-picker-calendar__weekday">
               {{:: day.date.format('dd') }}
             </th>
           </tr>
           <tr ng-repeat="week in ::month.weeks">
             <td
-                ng-class=':: {
+                ng-class='{
                   "mighty-picker-calendar__day": day,
                   "mighty-picker-calendar__day--selected": day.selected,
                   "mighty-picker-calendar__day--disabled": day.disabled,
@@ -26,7 +26,7 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
                 }'
                 ng-repeat="day in week track by $index" ng-click="select(day)">
                 <div class="mighty-picker-calendar__day-wrapper"
-                  {{:: day.date.date() }}
+                  {{ day.date.date() }}
                 </div>
                 <div class="mighty-picker-calendar__day-marker-wrapper">
                   <div class="mighty-picker-calendar__day-marker"
