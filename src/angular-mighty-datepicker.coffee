@@ -1,4 +1,4 @@
-angular.module "mightyDatepicker", ["pasvaz.bindonce"]
+angular.module "mightyDatepicker", []
 
 angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($compile) ->
   pickerTemplate = """
@@ -8,31 +8,28 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
         <<
       </button>
       <div class="mighty-picker__month"
-        bindonce ng-repeat="month in months track by $index">
-        <div class="mighty-picker__month-name" ng-bind="month.name"></div>
+        ng-repeat="month in months track by $index">
+        <div class="mighty-picker__month-name" ng-bind="::month.name"></div>
         <table class="mighty-picker-calendar">
           <tr class="mighty-picker-calendar__days">
-            <th bindonce ng-repeat="day in month.weeks[1]"
-              class="mighty-picker-calendar__weekday"
-              bo-text="day.date.format('dd')">
+            <th ng-repeat="day in ::month.weeks[1]"
+              class="mighty-picker-calendar__weekday" ng-bind="::day.date.format('dd')">
             </th>
           </tr>
-          <tr bindonce ng-repeat="week in month.weeks">
+          <tr ng-repeat="week in month.weeks">
             <td
-                bo-class='{
+                ng-class='::{
                   "mighty-picker-calendar__day": day,
                   "mighty-picker-calendar__day--selected": day.selected,
                   "mighty-picker-calendar__day--disabled": day.disabled,
                   "mighty-picker-calendar__day--in-range": day.inRange,
                   "mighty-picker-calendar__day--marked": day.marker
                 }'
-                ng-repeat="day in week track by $index" ng-click="select(day)">
-                <div class="mighty-picker-calendar__day-wrapper"
-                  bo-text="day.date.date()"></div>
+                ng-repeat="day in ::week track by $index" ng-click="select(day)">
+                <div class="mighty-picker-calendar__day-wrapper" ng-bind="::day.date.date()"></div>
                 <div class="mighty-picker-calendar__day-marker-wrapper">
                   <div class="mighty-picker-calendar__day-marker"
-                    ng-if="day.marker"
-                    ng-bind-template="">
+                    ng-if="::day.marker">
                   </div>
                 </div>
             </td>
@@ -51,7 +48,7 @@ angular.module("mightyDatepicker").directive "mightyDatepicker", ["$compile", ($
     start: null
     filter: undefined
     callback: undefined
-    markerTemplate: "{{ day.marker }}"
+    markerTemplate: "{{ ::day.marker }}"
     template: pickerTemplate
   restrict: "AE"
   replace: true
