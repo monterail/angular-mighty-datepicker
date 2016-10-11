@@ -41,10 +41,10 @@
 	  template += "    <button type=\"button\" class=\"mighty-picker__prev-month\" ng-click=\"moveMonth(-1)\">";
 	  template += "    << <\/button>";
 	  template += "    <div class=\"mighty-picker__month\" ng-repeat=\"month in months track by $index\">";
-	  template += "        <div class=\"mighty-picker__month-name\">{{::month.name}}<\/div>";
+	  template += "        <div class=\"mighty-picker__month-name\" ng-bind=\"::month.name\"><\/div>";
 	  template += "        <table class=\"mighty-picker-calendar\">";
 	  template += "            <tr class=\"mighty-picker-calendar__days\">";
-	  template += "                <th ng-repeat=\"day in ::month.weeks[1]\" class=\"mighty-picker-calendar__weekday\">{{::day.date.format('dd')}}";
+	  template += "                <th ng-repeat=\"day in ::month.weeks[1]\" class=\"mighty-picker-calendar__weekday\" ng-bind=\"::day.date.format('dd')\">";
 	  template += "                <\/th>";
 	  template += "            <\/tr>";
 	  template += "            <tr ng-repeat=\"week in month.weeks\">";
@@ -55,7 +55,7 @@
 	  template += "                  \"mighty-picker-calendar__day--in-range\": day.inRange,";
 	  template += "                  \"mighty-picker-calendar__day--marked\": day.marker";
 	  template += "                }' ng-repeat=\"day in ::week track by $index\" ng-click=\"select(day)\">";
-	  template += "                    <div class=\"mighty-picker-calendar__day-wrapper\">{{::day.date.date()}}<\/div>";
+	  template += "                    <div class=\"mighty-picker-calendar__day-wrapper\" ng-bind=\"::day.date.date()\"><\/div>";
 	  template += "                    <div class=\"mighty-picker-calendar__day-marker-wrapper\">";
 	  template += "                        <div class=\"mighty-picker-calendar__day-marker\" ng-if=\"::day.marker\">";
 	  template += "                        <\/div>";
