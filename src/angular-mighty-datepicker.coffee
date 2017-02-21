@@ -24,7 +24,7 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
                   "mighty-picker-calendar__day--in-range": day.inRange,
                   "mighty-picker-calendar__day--marked": day.marker
                 }'
-                ng-repeat="day in ::week track by $index" ng-click="select(day)">
+                ng-repeat="day in ::week track by $index" ng-click="select(day, $event)">
                 <div class="mighty-picker-calendar__day-wrapper">
                   {{:: day.date.date() }}
                 </div>
@@ -186,19 +186,20 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
       _prepare()
       return
 
-    $scope.select = (day) ->
-      if !day.disabled
-        switch $scope.options.mode
-          when "multiple"
-            if day.selected
-              ix = _indexOfMoment($scope.model, day.date, 'day')
-              $scope.model.splice(ix, 1)
-            else
-              $scope.model.push(moment(day.date))
+    $scope.select = (day, $event) ->
+      $event?.stopPropagation?()
+      return if day.disabled
+      switch $scope.options.mode
+        when "multiple"
+          if day.selected
+            ix = _indexOfMoment($scope.model, day.date, 'day')
+            $scope.model.splice(ix, 1)
           else
-            $scope.model = day.date
-        $scope.options.callback day.date if $scope.options.callback
-        _prepare()
+            $scope.model.push(moment(day.date))
+        else
+          $scope.model = day.date
+      $scope.options.callback day.date if $scope.options.callback
+      _prepare()
 
     $scope.$watchCollection 'markers', (newMarkers, oldMarkers) ->
       _indexMarkers()
