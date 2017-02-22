@@ -2,7 +2,7 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
   pickerTemplate = """
     <div class="mighty-picker__wrapper">
       <button type="button" class="mighty-picker__prev-month"
-        ng-click="moveMonth(-1)">
+        ng-click="moveMonth(-1, $event)">
         <<
       </button>
       <div class="mighty-picker__month"
@@ -39,7 +39,7 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
         </table>
       </div>
       <button type="button" class="mighty-picker__next-month"
-        ng-click="moveMonth(1)">
+        ng-click="moveMonth(1, $event)">
         >>
       </button>
     </div>
@@ -181,7 +181,8 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
       _prepare()
       _bake()
 
-    $scope.moveMonth = (step) ->
+    $scope.moveMonth = (step, $event) ->
+      $event?.stopPropagation?()
       $scope.options.start.add(step, 'month')
       _prepare()
       return
