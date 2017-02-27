@@ -52,6 +52,8 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
     callback: undefined
     markerTemplate: "{{ day.marker }}"
     template: pickerTemplate
+    firstWeekDayIsMonday: 0
+    
   restrict: "AE"
   replace: true
   template: '<div class="mighty-picker__holder"></div>'
@@ -110,7 +112,8 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
       days = []
       filter = true
       start = time.startOf('week')
-      days = [0 .. 6].map (d) ->
+      week = if $scope.options['firstWeekDayIsMonday'] then [1 .. 6, 0] else [0 .. 6]
+      days = week.map (d) ->
         day = moment(start).add(d, 'days')
         withinMonth = day.month() == month
         withinLimits = _withinLimits(day, month)
