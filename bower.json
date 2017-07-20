@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "angular": ">= 1.2",
-    "moment": ">= 2.6.0",
+    "moment": ">= 2.10.7",
     "moment-range": "~1.0.1"
   },
   "license": "MIT",
