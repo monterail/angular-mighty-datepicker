@@ -137,7 +137,8 @@
             })();
             return {
               weeks: weeks,
-              name: time.format("MMMM YYYY")
+              name: time.format("MMMM YYYY"),
+              time: time
             };
           };
           _setup = $scope.overloading.setup || function() {
