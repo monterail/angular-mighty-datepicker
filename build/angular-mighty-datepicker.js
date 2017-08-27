@@ -28,7 +28,7 @@
         },
         link: function ($scope, $element, $attrs) {
           var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isInRange, _isSelected, _prepare, _setup, _withinLimits;
-          var overloading = overloading || {};
+          var overloading = $scope.overloading || {};
           _bake = overloading.bake || function () {
             var domEl;
             domEl = $compile(angular.element($scope.options.template))($scope);
