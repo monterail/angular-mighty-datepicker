@@ -28,8 +28,8 @@
         },
         link: function ($scope, $element, $attrs) {
           var _bake, _build, _buildMonth, _buildWeek, _getMarker, _indexMarkers, _indexOfMoment, _isInRange, _isSelected, _prepare, _setup, _withinLimits;
-          var overloading = $scope.overloading || {};
-          _bake = $scope.overloading.bake || function () {
+          var overloading = overloading || {};
+          _bake = overloading.bake || function () {
             var domEl;
             domEl = $compile(angular.element($scope.options.template))($scope);
             return $element.append(domEl);
@@ -44,7 +44,7 @@
             }
             return -1;
           };
-          _indexMarkers = $scope.overloading.indexMarkers || function () {
+          _indexMarkers = overloading.indexMarkers || function () {
             var marker;
             if ($scope.markers) {
               return $scope.markerIndex = (function () {
@@ -59,7 +59,7 @@
               })();
             }
           };
-          _withinLimits = $scope.overloading.withinLimits || function (day, month) {
+          _withinLimits = overloading.withinLimits || function (day, month) {
             var withinLimits;
             withinLimits = true;
             if ($scope.before) {
@@ -70,7 +70,7 @@
             }
             return withinLimits;
           };
-          _getMarker = $scope.overloading.getMarker || function (day) {
+          _getMarker = overloading.getMarker || function (day) {
             var ix;
             ix = _indexOfMoment($scope.markerIndex, day, 'day');
             if (ix > -1) {
@@ -79,7 +79,7 @@
               return void 0;
             }
           };
-          _isSelected = $scope.overloading.isSelected || function (day) {
+          _isSelected = overloading.isSelected || function (day) {
             switch ($scope.options.mode) {
               case "multiple":
                 return _indexOfMoment($scope.model, day, 'day') > -1;
@@ -87,7 +87,7 @@
                 return $scope.model && day.isSame($scope.model, 'day');
             }
           };
-          _isInRange = $scope.overloading.isInRange || function (day) {
+          _isInRange = overloading.isInRange || function (day) {
             if ($scope.options.rangeMode) {
               if ($scope.options.rangeMode === "from") {
                 return moment.range($scope.model, $scope.before).contains(day) || day.isSame($scope.before, 'day');
@@ -98,7 +98,7 @@
               return false;
             }
           };
-          _buildWeek = $scope.overloading.buildWeek || function (time, month) {
+          _buildWeek = overloading.buildWeek || function (time, month) {
             var days, filter, start;
             days = [];
             filter = true;
@@ -121,7 +121,7 @@
             });
             return days;
           };
-          _buildMonth = $scope.overloading.buildMonth || function (time) {
+          _buildMonth = overloading.buildMonth || function (time) {
             var calendarEnd, calendarStart, start, w, weeks, weeksInMonth;
             weeks = [];
             calendarStart = moment(time).startOf('month');
@@ -142,7 +142,7 @@
               time: time
             };
           };
-          _setup = $scope.overloading.setup || function () {
+          _setup = overloading.setup || function () {
             var attr, dates, start, tempOptions, v, _ref;
             tempOptions = {};
             for (attr in options) {
@@ -184,7 +184,7 @@
             _indexMarkers();
             return $scope.options.template = $scope.options.template.replace('ng-bind-template=""', 'ng-bind-template="' + $scope.options.markerTemplate + '"');
           };
-          _prepare = $scope.overloading.prepare || function () {
+          _prepare = overloading.prepare || function () {
             var m;
             $scope.months = [];
             return $scope.months = (function () {
