@@ -235,12 +235,6 @@
 
                 $scope.moveMonth = function(step, $event) {
                     $scope.options.start.add(step, 'month');
-                    if ($scope.options.callback) {
-                        if ($scope.options.cancelClick) {
-                            $event.preventDefault();
-                        }
-                        $scope.options.callback($scope.model);
-                    }
                     _prepare();
                 };
 
