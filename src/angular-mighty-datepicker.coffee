@@ -132,7 +132,8 @@ angular.module("mightyDatepicker", [ ]).directive "mightyDatepicker", ["$compile
         _buildWeek(moment(start).add(w, 'weeks'), moment(start).month()
         ) for w in [0 .. weeksInMonth])
       weeks: weeks
-      name: time.format("MMMM YYYY")
+      name: time.format("MMMM YYYY"),
+      number: time.format("MM")
 
     _setup = ->
       tempOptions = {}
