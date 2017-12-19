@@ -47,15 +47,6 @@ gulp.task("bower", function() {
     .pipe(gulp.dest("bower_components"))
 });
 
-// compilers
-
-// gulp.task("copy", function(){
-//   return gulp.src(paths.src + "**/*.{json,png,jpg,gif,eot,svg,ttf,woff}")
-//     .pipe(changed(paths.dst))
-//     .pipe(gulp.dest(paths.dst))
-//     .pipe(connect.reload());
-// });
-
 gulp.task("less", function(){
   return gulp.src(paths.src + "**/*.less")
     .pipe(changed(paths.dst, { extension: '.css' }))
@@ -79,4 +70,3 @@ gulp.task("coffee", function(){
     .pipe(gulp.dest(paths.dst))
     .pipe(connect.reload());
 });
-//

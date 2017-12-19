@@ -136,7 +136,8 @@
             })();
             return {
               weeks: weeks,
-              name: time.format("MMMM YYYY")
+              name: time.format("MMMM YYYY"),
+              number: time.format("MM")
             };
           };
           _setup = function() {
